@@ -4,7 +4,11 @@ import { User } from '../../domain';
 import { UniqueEntityID } from 'shared/domain';
 
 export class UserMap {
-  static toDto(user: User): UserDto {
+  public static toDtoBulk(users: User[]): UserDto[] {
+    return users.map((user) => this.toDto(user));
+  }
+
+  public static toDto(user: User): UserDto {
     return {
       userId: user.userId.toString(),
       personalNumber: user.personalNumber,
@@ -15,7 +19,7 @@ export class UserMap {
     };
   }
 
-  static toDomain(entity: UserEntity): User {
+  public static toDomain(entity: UserEntity): User {
     return User.create(
       {
         personalNumber: entity.personal_number,
@@ -28,7 +32,7 @@ export class UserMap {
     );
   }
 
-  static toPersistance(user: User): Partial<UserEntity> {
+  public static toPersistance(user: User): Partial<UserEntity> {
     return {
       user_id: user.userId.toString(),
       personal_number: user.personalNumber,
