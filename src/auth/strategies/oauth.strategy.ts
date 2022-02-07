@@ -1,10 +1,12 @@
 import { HttpService } from '@nestjs/axios';
+import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-oauth2';
 import { firstValueFrom } from 'rxjs';
 
+@Injectable()
 export class OAuth2Strategy extends PassportStrategy(Strategy, 'oauth2') {
-  constructor(private readonly httpService: HttpService) {
+  constructor(private httpService: HttpService) {
     super({
       authorizationURL: process.env.OAUTH_AUTHORIZATION_URL,
       tokenURL: process.env.OAUTH_ACCESS_TOKEN_URL,

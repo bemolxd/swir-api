@@ -2,6 +2,7 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 
 import { AuthController } from './auth.controller';
+import { SessionSerializer } from './serializers';
 import { OAuth2Strategy } from './strategies';
 
 @Module({
@@ -13,7 +14,7 @@ import { OAuth2Strategy } from './strategies';
       }),
     }),
   ],
-  providers: [OAuth2Strategy],
+  providers: [OAuth2Strategy, SessionSerializer],
   controllers: [AuthController],
 })
 export class AuthModule {}
