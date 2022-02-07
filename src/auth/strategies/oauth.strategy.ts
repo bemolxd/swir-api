@@ -4,6 +4,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-oauth2';
 import { firstValueFrom } from 'rxjs';
 
+import { DoneFun, AuthProfile } from '../types';
+
 @Injectable()
 export class OAuth2Strategy extends PassportStrategy(Strategy, 'oauth2') {
   constructor(private httpService: HttpService) {
@@ -20,10 +22,10 @@ export class OAuth2Strategy extends PassportStrategy(Strategy, 'oauth2') {
     accessToken: string,
     _refreshToken: string,
     _profile: any,
-    done: any,
+    done: DoneFun,
   ): Promise<any> {
     const { data: profile } = await firstValueFrom(
-      this.httpService.get(
+      this.httpService.get<AuthProfile>(
         `${process.env.OAUTH_PROFILE_URL}?access_token=${accessToken}`,
       ),
     );
