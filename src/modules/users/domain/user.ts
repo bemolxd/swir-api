@@ -9,7 +9,7 @@ export interface UserProps {
   firstName: string;
   lastName: string;
   email: string;
-  contextType: string;
+  contextType: ContextType;
 }
 
 export class User extends Entity<UserProps> {

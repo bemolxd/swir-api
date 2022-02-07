@@ -1,4 +1,9 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-@Module({})
+import { UserRepository } from './adapter';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([UserRepository])],
+})
 export class UsersModule {}

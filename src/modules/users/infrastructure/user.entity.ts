@@ -2,6 +2,8 @@ import { Column, Entity, PrimaryColumn, Unique } from 'typeorm';
 
 import { AbstractEntity } from 'shared/core';
 
+import { ContextType } from '../domain/types';
+
 @Entity('users')
 @Unique(['personal_number'])
 export class UserEntity extends AbstractEntity {
@@ -21,5 +23,5 @@ export class UserEntity extends AbstractEntity {
   email: string;
 
   @Column()
-  context_type: string;
+  context_type: ContextType;
 }
