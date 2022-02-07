@@ -25,6 +25,12 @@ export class UserRepository
     return UserMap.toDomain(user);
   }
 
+  async getAllUsers(): Promise<User[]> {
+    const users = await this.find();
+
+    return users.map((user) => UserMap.toDomain(user));
+  }
+
   async persist(user: User): Promise<void> {
     const existingUser = await this.exists(user.personalNumber);
 
