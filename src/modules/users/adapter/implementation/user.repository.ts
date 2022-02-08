@@ -25,6 +25,14 @@ export class UserRepository
     return UserMap.toDomain(user);
   }
 
+  async getUserByPersonalNumber(personalNumber: string): Promise<User> {
+    const user = await this.findOne({ personal_number: personalNumber });
+
+    if (!user) throw new Error('User not found');
+
+    return UserMap.toDomain(user);
+  }
+
   async getAllUsers(): Promise<User[]> {
     const users = await this.find();
 
