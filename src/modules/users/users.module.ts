@@ -11,15 +11,20 @@ import {
 import { QueryHandlers } from './application/queries/handlers';
 import { CommandHandlers } from './application/commands/handlers';
 import { SignupUserUseCase } from './application/useCases/signupUser';
+import {
+  GetUserUseCase,
+  GetUserController,
+} from './application/useCases/getUser';
 
 @Module({
   imports: [CqrsModule, TypeOrmModule.forFeature([UserRepository])],
-  controllers: [GetUsersController],
+  controllers: [GetUsersController, GetUserController],
   providers: [
     UserService,
     ...QueryHandlers,
     ...CommandHandlers,
     GetUsersUseCase,
+    GetUserUseCase,
     SignupUserUseCase,
   ],
 })
