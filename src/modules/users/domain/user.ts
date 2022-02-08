@@ -34,8 +34,7 @@ export class User extends Entity<UserProps> {
   }
 
   get contextType() {
-    //TODO: contextType logic
-    return ContextType.USER;
+    return this.props.contextType;
   }
 
   private constructor(props: UserProps, id?: UniqueEntityID) {

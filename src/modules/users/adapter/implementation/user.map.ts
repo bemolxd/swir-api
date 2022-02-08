@@ -1,7 +1,8 @@
+import { UniqueEntityID } from 'shared/domain';
+
 import { UserEntity } from '../../infrastructure';
 import { UserDto } from '../../application/dto';
 import { User } from '../../domain';
-import { UniqueEntityID } from 'shared/domain';
 
 export class UserMap {
   public static toDtoBulk(users: User[]): UserDto[] {

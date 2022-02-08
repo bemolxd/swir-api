@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-oauth2';
 import { firstValueFrom } from 'rxjs';
@@ -25,8 +25,8 @@ export class OAuth2Strategy extends PassportStrategy(Strategy, 'oauth2') {
 
   async validate(
     accessToken: string,
-    _refreshToken: string,
-    _profile: any,
+    _refreshToken: unknown,
+    _profile: unknown,
     done: DoneFun,
   ): Promise<any> {
     const { data: profile } = await firstValueFrom(

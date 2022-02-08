@@ -1,3 +1,3 @@
-import { AuthProfile } from './AuthProfile';
+import { User } from 'modules/users/domain';
 
-export type DoneFun = (err: Error | null, profile: AuthProfile) => void;
+export type DoneFun = (err: Error | null, profile: User) => void;
