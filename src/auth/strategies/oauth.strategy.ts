@@ -35,10 +35,8 @@ export class OAuth2Strategy extends PassportStrategy(Strategy, 'oauth2') {
       ),
     );
 
-    console.log('profile', profile);
-
     const user = await this.userService.signupUser({
-      personalNumber: profile.attributes.personalNumber,
+      personalNumber: profile.attributes.personNumber,
       firstName: profile.attributes.firstName,
       lastName: profile.attributes.lastName,
       email: profile.attributes.mail,

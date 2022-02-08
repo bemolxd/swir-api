@@ -9,5 +9,5 @@ interface UserAttributes {
   firstName: string;
   lastName: string;
   mail: string;
-  personalNumber: string;
+  personNumber: string;
 }

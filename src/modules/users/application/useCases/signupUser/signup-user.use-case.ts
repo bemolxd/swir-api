@@ -20,7 +20,6 @@ export class SignupUserUseCase
     const isExistingUser = await this.userRepository.exists(dto.personalNumber);
 
     if (isExistingUser) {
-      console.log('user exists');
       return await this.userRepository.getUserByPersonalNumber(
         dto.personalNumber,
       );
@@ -35,7 +34,6 @@ export class SignupUserUseCase
     });
 
     await this.userRepository.persist(newUser);
-    console.log('create new user');
 
     return newUser;
   }
