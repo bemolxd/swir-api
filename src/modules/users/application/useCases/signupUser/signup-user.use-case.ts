@@ -2,27 +2,30 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { UseCase } from 'shared/core';
 
-import { UserRepository } from 'modules/users/adapter';
-import { User } from 'modules/users/domain';
+import { UserMap, UserRepository } from 'modules/users/adapter';
 import { ContextType } from 'modules/users/domain/types';
+import { User } from 'modules/users/domain';
 
 import { CreateUserDto } from './signup-user.dto';
+import { UserDto } from '../../dto';
 
 // only for auth
 export class SignupUserUseCase
-  implements UseCase<CreateUserDto, Promise<User>>
+  implements UseCase<CreateUserDto, Promise<UserDto>>
 {
   constructor(
     @InjectRepository(UserRepository) private userRepository: UserRepository,
   ) {}
 
-  async execute(dto: CreateUserDto): Promise<User> {
+  async execute(dto: CreateUserDto): Promise<UserDto> {
     const isExistingUser = await this.userRepository.exists(dto.personalNumber);
 
     if (isExistingUser) {
-      return await this.userRepository.getUserByPersonalNumber(
+      const existingUser = await this.userRepository.getUserByPersonalNumber(
         dto.personalNumber,
       );
+
+      return UserMap.toDto(existingUser);
     }
 
     const newUser = User.create({
@@ -35,6 +38,6 @@ export class SignupUserUseCase
 
     await this.userRepository.persist(newUser);
 
-    return newUser;
+    return UserMap.toDto(newUser);
   }
 }

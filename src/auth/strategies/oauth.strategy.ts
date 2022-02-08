@@ -28,7 +28,7 @@ export class OAuth2Strategy extends PassportStrategy(Strategy, 'oauth2') {
     _refreshToken: unknown,
     _profile: unknown,
     done: DoneFun,
-  ): Promise<any> {
+  ): Promise<void> {
     const { data: profile } = await firstValueFrom(
       this.httpService.get<AuthProfile>(
         `${process.env.OAUTH_PROFILE_URL}?access_token=${accessToken}`,

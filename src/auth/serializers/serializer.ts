@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PassportSerializer } from '@nestjs/passport';
 
 import { DoneFun } from 'auth/types';
-import { User } from 'modules/users/domain';
+import { UserDto } from 'modules/users/application/dto';
 
 @Injectable()
 export class SessionSerializer extends PassportSerializer {
@@ -10,11 +10,11 @@ export class SessionSerializer extends PassportSerializer {
     super();
   }
 
-  serializeUser(user: User, done: DoneFun) {
+  serializeUser(user: UserDto, done: DoneFun) {
     done(null, user);
   }
 
-  deserializeUser(user: User, done: DoneFun) {
+  deserializeUser(user: UserDto, done: DoneFun) {
     done(null, user);
   }
 }
