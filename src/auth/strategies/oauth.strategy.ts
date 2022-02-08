@@ -1,14 +1,19 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-oauth2';
 import { firstValueFrom } from 'rxjs';
+
+import { UserService } from 'modules/users/application/services';
 
 import { DoneFun, AuthProfile } from '../types';
 
 @Injectable()
 export class OAuth2Strategy extends PassportStrategy(Strategy, 'oauth2') {
-  constructor(private httpService: HttpService) {
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly userService: UserService,
+  ) {
     super({
       authorizationURL: process.env.OAUTH_AUTHORIZATION_URL,
       tokenURL: process.env.OAUTH_ACCESS_TOKEN_URL,
@@ -30,7 +35,13 @@ export class OAuth2Strategy extends PassportStrategy(Strategy, 'oauth2') {
       ),
     );
 
-    // TODO: check user in db
-    return done(null, profile);
+    const user = await this.userService.signupUser({
+      personalNumber: profile.attributes.personNumber,
+      firstName: profile.attributes.firstName,
+      lastName: profile.attributes.lastName,
+      email: profile.attributes.mail,
+    });
+
+    return done(null, user);
   }
 }
