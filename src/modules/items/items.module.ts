@@ -7,7 +7,9 @@ import { CommandHandlers } from './application/commands/handlers';
 import { QueryHandlers } from './application/queries/handlers';
 import { ItemService } from './application/services';
 import { CreateItemUseCase } from './application/useCases/createItem';
-import { CreateItemController } from './application/useCases/createItem/create-item.controller';
+import { CreateItemController } from './application/useCases/createItem';
+import { GetItemUseCase } from './application/useCases/getItem';
+import { GetItemController } from './application/useCases/getItem/get-item.controller';
 import {
   GetItemsController,
   GetItemsUseCase,
@@ -15,11 +17,12 @@ import {
 
 @Module({
   imports: [CqrsModule, TypeOrmModule.forFeature([ItemRepository])],
-  controllers: [GetItemsController, CreateItemController],
+  controllers: [GetItemsController, CreateItemController, GetItemController],
   providers: [
     ItemService,
     ...QueryHandlers,
     ...CommandHandlers,
+    GetItemUseCase,
     GetItemsUseCase,
     CreateItemUseCase,
   ],
