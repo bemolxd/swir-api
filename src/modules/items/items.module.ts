@@ -3,8 +3,11 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ItemRepository } from './adapter';
+import { CommandHandlers } from './application/commands/handlers';
 import { QueryHandlers } from './application/queries/handlers';
 import { ItemService } from './application/services';
+import { CreateItemUseCase } from './application/useCases/createItem';
+import { CreateItemController } from './application/useCases/createItem/create-item.controller';
 import {
   GetItemsController,
   GetItemsUseCase,
@@ -12,7 +15,13 @@ import {
 
 @Module({
   imports: [CqrsModule, TypeOrmModule.forFeature([ItemRepository])],
-  controllers: [GetItemsController],
-  providers: [ItemService, ...QueryHandlers, GetItemsUseCase],
+  controllers: [GetItemsController, CreateItemController],
+  providers: [
+    ItemService,
+    ...QueryHandlers,
+    ...CommandHandlers,
+    GetItemsUseCase,
+    CreateItemUseCase,
+  ],
 })
 export class ItemsModule {}
