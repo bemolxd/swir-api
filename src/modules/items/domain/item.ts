@@ -42,7 +42,7 @@ export class Item extends Entity<ItemProps> {
   }
 
   get subcategory() {
-    return this.props.category;
+    return this.props.subcategory;
   }
 
   get description() {
