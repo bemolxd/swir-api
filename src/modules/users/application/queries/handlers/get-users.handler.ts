@@ -7,7 +7,7 @@ import { GetUsersQuery } from '../implementations';
 export class GetUsersHandler implements IQueryHandler {
   constructor(private getUsersUseCase: GetUsersUseCase) {}
 
-  async execute() {
-    return await this.getUsersUseCase.execute();
+  async execute({ params }: GetUsersQuery) {
+    return await this.getUsersUseCase.execute(params);
   }
 }

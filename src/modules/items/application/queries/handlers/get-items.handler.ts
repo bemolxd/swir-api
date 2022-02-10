@@ -7,7 +7,7 @@ import { GetItemsUseCase } from '../../useCases/getItems';
 export class GetItemsHandler implements IQueryHandler {
   constructor(private getItemsUseCase: GetItemsUseCase) {}
 
-  async execute() {
-    return await this.getItemsUseCase.execute();
+  async execute({ params }: GetItemsQuery) {
+    return await this.getItemsUseCase.execute(params);
   }
 }

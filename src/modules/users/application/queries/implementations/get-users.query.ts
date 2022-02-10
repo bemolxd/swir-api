@@ -1,3 +1,5 @@
+import { UsersCollectionQueryParams } from 'modules/users/adapter';
+
 export class GetUsersQuery {
-  constructor() {}
+  constructor(public readonly params: UsersCollectionQueryParams) {}
 }

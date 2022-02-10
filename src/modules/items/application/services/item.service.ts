@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { ItemsCollectionQueryParams } from 'modules/items/adapter';
 
 import {
   CreateItemCommand,
@@ -20,8 +21,8 @@ export class ItemService {
     private readonly commandBus: CommandBus,
   ) {}
 
-  async getAllItems() {
-    return this.queryBus.execute(new GetItemsQuery());
+  async getAllItems(params: ItemsCollectionQueryParams) {
+    return this.queryBus.execute(new GetItemsQuery(params));
   }
 
   async getItemById(getItemDto: GetItemDto) {

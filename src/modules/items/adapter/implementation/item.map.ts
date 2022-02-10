@@ -25,6 +25,25 @@ export class ItemMap {
     };
   }
 
+  public static toDomainBulk(entities: ItemEntity[]): Item[] {
+    return entities.map((entity) =>
+      Item.create(
+        {
+          name: entity.name,
+          vendor: entity.vendor,
+          imageUrl: entity.image_url,
+          type: entity.type,
+          category: entity.category,
+          subcategory: entity.subcategory,
+          description: entity.description,
+          parameters: entity.parameters,
+          quantity: entity.quantity,
+        },
+        new UniqueEntityID(entity.item_id),
+      ),
+    );
+  }
+
   public static toDomain(entity: ItemEntity): Item {
     return Item.create(
       {

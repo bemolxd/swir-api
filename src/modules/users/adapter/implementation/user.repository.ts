@@ -1,14 +1,16 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository } from 'typeorm';
+import { BaseRepository, QueryListResult } from 'shared/core';
 
 import { UserEntity } from 'modules/users/infrastructure';
 import { User } from 'modules/users/domain';
 
 import { IUserRepository } from '../user-repository';
 import { UserMap } from './user.map';
+import { UsersCollectionQueryParams } from '../users-collection.query-params';
 
 @EntityRepository(UserEntity)
 export class UserRepository
-  extends Repository<UserEntity>
+  extends BaseRepository<UserEntity>
   implements IUserRepository
 {
   async exists(personalNumber: string): Promise<boolean> {
@@ -33,10 +35,22 @@ export class UserRepository
     return UserMap.toDomain(user);
   }
 
-  async getAllUsers(): Promise<User[]> {
-    const users = await this.find();
+  async getAllUsers({
+    limit = 10,
+    offset = 0,
+  }: UsersCollectionQueryParams): Promise<QueryListResult<User>> {
+    const query = this.createPaginatedQueryBuilder('users', { limit, offset });
 
-    return users.map((user) => UserMap.toDomain(user));
+    const [collection, total] = await query.getManyAndCount();
+
+    return {
+      collection: UserMap.toDomainBulk(collection),
+      meta: {
+        limit,
+        offset,
+        total,
+      },
+    };
   }
 
   async persist(user: User): Promise<void> {
