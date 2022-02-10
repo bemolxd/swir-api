@@ -31,6 +31,16 @@ export class ItemRepository
     return items.map((item) => ItemMap.toDomain(item));
   }
 
+  async updateItem(item: Item): Promise<void> {
+    const existingItem = await this.exists(item.itemId.toString());
+
+    if (!existingItem) throw new Error('Item not found');
+
+    const itemEntity = ItemMap.toPersistance(item);
+
+    await this.save(itemEntity);
+  }
+
   async persist(item: Item): Promise<void> {
     const existingItem = await this.exists(item.itemId.toString());
 

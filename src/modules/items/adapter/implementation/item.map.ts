@@ -3,6 +3,7 @@ import { UniqueEntityID } from 'shared/domain';
 import { ItemDto } from 'modules/items/application/dto';
 import { Item } from 'modules/items/domain';
 import { ItemEntity } from 'modules/items/infrastructure';
+import { UpdateItemDto } from 'modules/items/application/useCases/updateItem';
 
 export class ItemMap {
   public static toDtoBulk(items: Item[]): ItemDto[] {
@@ -38,6 +39,23 @@ export class ItemMap {
         quantity: entity.quantity,
       },
       new UniqueEntityID(entity.item_id),
+    );
+  }
+
+  public static dtoToDomain(dto: UpdateItemDto): Item {
+    return Item.create(
+      {
+        name: dto.name,
+        vendor: dto.vendor,
+        imageUrl: dto.imageUrl,
+        type: dto.type,
+        category: dto.category,
+        subcategory: dto.subcategory,
+        description: dto.description,
+        parameters: dto.parameters,
+        quantity: dto.quantity,
+      },
+      new UniqueEntityID(dto.itemId),
     );
   }
 

@@ -14,10 +14,19 @@ import {
   GetItemsController,
   GetItemsUseCase,
 } from './application/useCases/getItems';
+import {
+  UpdateItemUseCase,
+  UpdateItemController,
+} from './application/useCases/updateItem';
 
 @Module({
   imports: [CqrsModule, TypeOrmModule.forFeature([ItemRepository])],
-  controllers: [GetItemsController, CreateItemController, GetItemController],
+  controllers: [
+    GetItemsController,
+    CreateItemController,
+    GetItemController,
+    UpdateItemController,
+  ],
   providers: [
     ItemService,
     ...QueryHandlers,
@@ -25,6 +34,7 @@ import {
     GetItemUseCase,
     GetItemsUseCase,
     CreateItemUseCase,
+    UpdateItemUseCase,
   ],
 })
 export class ItemsModule {}
