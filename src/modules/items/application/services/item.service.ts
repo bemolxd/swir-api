@@ -3,12 +3,14 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import {
   CreateItemCommand,
+  RemoveItemCommand,
   UpdateItemCommand,
 } from '../commands/implementations';
 import { GetItemQuery, GetItemsQuery } from '../queries/implementations';
 
 import { CreateItemDto } from '../useCases/createItem';
 import { GetItemDto } from '../useCases/getItem';
+import { RemoveItemDto } from '../useCases/removeItem';
 import { UpdateItemDto } from '../useCases/updateItem';
 
 @Injectable()
@@ -32,5 +34,9 @@ export class ItemService {
 
   async updateItem(updateItemDto: UpdateItemDto) {
     return this.commandBus.execute(new UpdateItemCommand(updateItemDto));
+  }
+
+  async removeItem(removeItemDto: RemoveItemDto) {
+    return this.commandBus.execute(new RemoveItemCommand(removeItemDto));
   }
 }

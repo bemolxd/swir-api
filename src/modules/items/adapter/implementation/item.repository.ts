@@ -41,6 +41,12 @@ export class ItemRepository
     await this.save(itemEntity);
   }
 
+  async removeItem(itemId: string): Promise<void> {
+    const result = await this.delete({ item_id: itemId });
+
+    if (result.affected === 0) throw new Error('Item not found');
+  }
+
   async persist(item: Item): Promise<void> {
     const existingItem = await this.exists(item.itemId.toString());
 

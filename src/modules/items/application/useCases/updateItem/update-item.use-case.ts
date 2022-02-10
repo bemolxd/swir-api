@@ -12,10 +12,6 @@ export class UpdateItemUseCase
   ) {}
 
   async execute(dto: UpdateItemDto): Promise<ItemDto> {
-    const isExistingItem = await this.itemRepository.exists(dto.itemId);
-
-    if (!isExistingItem) throw new Error('Item not found');
-
     const item = ItemMap.dtoToDomain(dto);
 
     await this.itemRepository.updateItem(item);

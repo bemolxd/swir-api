@@ -22,6 +22,10 @@ import {
   GetItemsUseCase,
 } from './application/useCases/getItems';
 import {
+  RemoveItemController,
+  RemoveItemUseCase,
+} from './application/useCases/removeItem';
+import {
   UpdateItemUseCase,
   UpdateItemController,
 } from './application/useCases/updateItem';
@@ -33,6 +37,7 @@ import {
     CreateItemController,
     GetItemController,
     UpdateItemController,
+    RemoveItemController,
   ],
   providers: [
     ItemService,
@@ -42,6 +47,7 @@ import {
     GetItemsUseCase,
     CreateItemUseCase,
     UpdateItemUseCase,
+    RemoveItemUseCase,
   ],
 })
 export class ItemsModule {}
