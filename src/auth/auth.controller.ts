@@ -1,5 +1,5 @@
-import { Controller, Get, Res, UseGuards } from '@nestjs/common';
-import { Response } from 'express';
+import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { Request, Response } from 'express';
 
 import { AuthenticatedGuard, OAuth2Guard } from './guards';
 
@@ -14,13 +14,12 @@ export class AuthController {
   @Get('cui/redirect')
   @UseGuards(OAuth2Guard)
   redirect(@Res() res: Response) {
-    res.redirect('/api/auth/protected');
+    res.redirect(process.env.APP_CLIENT_URL);
   }
 
-  // test protected route
-  @Get('protected')
+  @Get('me')
   @UseGuards(AuthenticatedGuard)
-  protected(@Res() res: Response) {
-    res.send('ok');
+  protected(@Req() req: Request) {
+    return req.user;
   }
 }
