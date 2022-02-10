@@ -3,13 +3,20 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ItemRepository } from './adapter';
+
 import { CommandHandlers } from './application/commands/handlers';
 import { QueryHandlers } from './application/queries/handlers';
+
 import { ItemService } from './application/services';
-import { CreateItemUseCase } from './application/useCases/createItem';
-import { CreateItemController } from './application/useCases/createItem';
-import { GetItemUseCase } from './application/useCases/getItem';
-import { GetItemController } from './application/useCases/getItem/get-item.controller';
+
+import {
+  CreateItemUseCase,
+  CreateItemController,
+} from './application/useCases/createItem';
+import {
+  GetItemUseCase,
+  GetItemController,
+} from './application/useCases/getItem';
 import {
   GetItemsController,
   GetItemsUseCase,
