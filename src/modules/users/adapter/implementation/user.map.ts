@@ -20,6 +20,21 @@ export class UserMap {
     };
   }
 
+  public static toDomainBulk(entities: UserEntity[]): User[] {
+    return entities.map((entity) =>
+      User.create(
+        {
+          personalNumber: entity.personal_number,
+          firstName: entity.first_name,
+          lastName: entity.last_name,
+          email: entity.email,
+          contextType: entity.context_type,
+        },
+        new UniqueEntityID(entity.user_id),
+      ),
+    );
+  }
+
   public static toDomain(entity: UserEntity): User {
     return User.create(
       {
