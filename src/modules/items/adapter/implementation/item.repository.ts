@@ -1,14 +1,17 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository } from 'typeorm';
+
+import { BaseRepository, QueryListResult } from 'shared/core';
 
 import { ItemEntity } from 'modules/items/infrastructure';
 import { Item } from 'modules/items/domain';
 
 import { IItemRepository } from '../item-repository';
 import { ItemMap } from './item.map';
+import { ItemsCollectionQueryParams } from '../items-collection.query-params';
 
 @EntityRepository(ItemEntity)
 export class ItemRepository
-  extends Repository<ItemEntity>
+  extends BaseRepository<ItemEntity>
   implements IItemRepository
 {
   async exists(itemId: string): Promise<boolean> {
@@ -25,10 +28,25 @@ export class ItemRepository
     return ItemMap.toDomain(item);
   }
 
-  async getAllItems(): Promise<Item[]> {
-    const items = await this.find();
+  async getAllItems({
+    limit = 10,
+    offset = 0,
+  }: ItemsCollectionQueryParams): Promise<QueryListResult<Item>> {
+    const query = this.createPaginatedQueryBuilder('items', {
+      limit,
+      offset,
+    });
 
-    return items.map((item) => ItemMap.toDomain(item));
+    const [collection, total] = await query.getManyAndCount();
+
+    return {
+      collection: ItemMap.toDomainBulk(collection),
+      meta: {
+        limit,
+        offset,
+        total,
+      },
+    };
   }
 
   async updateItem(item: Item): Promise<void> {
