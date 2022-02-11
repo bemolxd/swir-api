@@ -7,15 +7,18 @@ import { Item } from 'modules/items/domain';
 
 import { ItemDto } from '../../dto';
 import { CreateItemDto } from './create-item.dto';
+import { CreateItemErrors } from './create-item.errors';
+
+export type CreateItemResponse = ItemDto | CreateItemErrors.ItemAlreadyExists;
 
 export class CreateItemUseCase
-  implements UseCase<CreateItemDto, Promise<ItemDto>>
+  implements UseCase<CreateItemDto, Promise<CreateItemResponse>>
 {
   constructor(
     @InjectRepository(ItemRepository) private itemRepository: ItemRepository,
   ) {}
 
-  async execute(dto: CreateItemDto): Promise<ItemDto> {
+  async execute(dto: CreateItemDto): Promise<CreateItemResponse> {
     const newItem = Item.create({
       name: dto.name,
       vendor: dto.vendor,
@@ -28,7 +31,11 @@ export class CreateItemUseCase
       quantity: dto.quantity,
     });
 
-    await this.itemRepository.persist(newItem);
+    try {
+      await this.itemRepository.persist(newItem);
+    } catch {
+      return new CreateItemErrors.ItemAlreadyExists();
+    }
 
     return ItemMap.toDto(newItem);
   }
