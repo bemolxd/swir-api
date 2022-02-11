@@ -1,4 +1,11 @@
-import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpException,
+  NotFoundException,
+  Param,
+} from '@nestjs/common';
+import { AppError } from 'shared/core';
 
 import { ItemService } from '../../services';
 import { GetItemErrors } from './get-item.errors';
@@ -21,8 +28,7 @@ export class GetItemController {
 
       return result;
     } catch (error) {
-      // TODO: AppError
-      console.log(error);
+      return new HttpException(new AppError.UnexpectedError(error), 500);
     }
   }
 }
