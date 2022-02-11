@@ -1,0 +1,1 @@
+export { UseCaseError } from './UseCaseError';
