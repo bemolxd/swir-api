@@ -1,4 +1,6 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, HttpException, Query } from '@nestjs/common';
+import { AppError } from 'shared/core';
+
 import { UsersCollectionQueryParams } from 'modules/users/adapter';
 
 import { UserService } from '../../services/user.service';
@@ -9,8 +11,12 @@ export class GetUsersController {
 
   @Get('users')
   async getAllUsers(@Query() params: UsersCollectionQueryParams) {
-    const users = this.userService.getAllUsers(params);
+    try {
+      const users = this.userService.getAllUsers(params);
 
-    return users;
+      return users;
+    } catch (error) {
+      return new HttpException(new AppError.UnexpectedError(error), 500);
+    }
   }
 }

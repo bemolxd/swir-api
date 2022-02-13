@@ -1,8 +1,9 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-oauth2';
 import { firstValueFrom } from 'rxjs';
+import { AppError } from 'shared/core';
 
 import { UserService } from 'modules/users/application/services';
 
@@ -41,6 +42,10 @@ export class OAuth2Strategy extends PassportStrategy(Strategy, 'oauth2') {
       lastName: profile.attributes.lastName,
       email: profile.attributes.mail,
     });
+
+    if (user instanceof AppError.UnexpectedError) {
+      throw new UnauthorizedException();
+    }
 
     return done(null, user);
   }

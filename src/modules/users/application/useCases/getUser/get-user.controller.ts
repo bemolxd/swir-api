@@ -1,5 +1,14 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpException,
+  NotFoundException,
+  Param,
+} from '@nestjs/common';
+import { AppError } from 'shared/core';
+
 import { UserService } from '../../services';
+import { GetUserErrors } from './get-user.errors';
 
 @Controller()
 export class GetUserController {
@@ -7,8 +16,16 @@ export class GetUserController {
 
   @Get('users/:userId')
   async getUserById(@Param('userId') userId: string) {
-    const user = this.userService.getUserById({ userId });
+    try {
+      const result = this.userService.getUserById({ userId });
 
-    return user;
+      if (result instanceof GetUserErrors.UserNotFoundError) {
+        return new NotFoundException(result.message);
+      }
+
+      return result;
+    } catch (error) {
+      return new HttpException(new AppError.UnexpectedError(error), 500);
+    }
   }
 }

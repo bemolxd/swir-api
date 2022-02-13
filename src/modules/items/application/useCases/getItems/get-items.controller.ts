@@ -1,4 +1,6 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, HttpException, Query } from '@nestjs/common';
+import { AppError } from 'shared/core';
+
 import { ItemsCollectionQueryParams } from 'modules/items/adapter';
 
 import { ItemService } from '../../services';
@@ -9,8 +11,12 @@ export class GetItemsController {
 
   @Get('items')
   async getAllItems(@Query() params: ItemsCollectionQueryParams) {
-    const items = this.itemService.getAllItems(params);
+    try {
+      const items = await this.itemService.getAllItems(params);
 
-    return items;
+      return items;
+    } catch (error) {
+      return new HttpException(new AppError.UnexpectedError(error), 500);
+    }
   }
 }

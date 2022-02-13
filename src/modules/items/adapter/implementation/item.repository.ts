@@ -68,7 +68,7 @@ export class ItemRepository
   async persist(item: Item): Promise<void> {
     const existingItem = await this.exists(item.itemId.toString());
 
-    if (!!existingItem) return;
+    if (!!existingItem) throw new Error('Item already exists!');
 
     const itemEntity = ItemMap.toPersistance(item);
 

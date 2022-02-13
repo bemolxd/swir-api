@@ -1,6 +1,15 @@
-import { Controller, Delete, Param } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  HttpException,
+  NotFoundException,
+  Param,
+} from '@nestjs/common';
+import { AppError } from 'shared/core';
 
 import { ItemService } from '../../services';
+import { RemoveItemErrors } from './remove-item.errors';
+import { RemoveItemResponse } from './remove-item.use-case';
 
 @Controller()
 export class RemoveItemController {
@@ -8,8 +17,18 @@ export class RemoveItemController {
 
   @Delete('items/:itemId')
   async removeItem(@Param('itemId') itemId: string) {
-    await this.itemService.removeItem({ itemId });
+    try {
+      const result: RemoveItemResponse = await this.itemService.removeItem({
+        itemId,
+      });
 
-    return;
+      if (result instanceof RemoveItemErrors.ItemNotFoundError) {
+        return new NotFoundException(result.message);
+      }
+
+      return;
+    } catch (error) {
+      return new HttpException(new AppError.UnexpectedError(error), 500);
+    }
   }
 }
