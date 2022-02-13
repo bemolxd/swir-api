@@ -4,7 +4,9 @@ import {
   HttpException,
   NotFoundException,
   Param,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthenticatedGuard } from 'auth/guards';
 import { AppError } from 'shared/core';
 
 import { ItemService } from '../../services';
@@ -12,6 +14,7 @@ import { RemoveItemErrors } from './remove-item.errors';
 import { RemoveItemResponse } from './remove-item.use-case';
 
 @Controller()
+@UseGuards(AuthenticatedGuard)
 export class RemoveItemController {
   constructor(private readonly itemService: ItemService) {}
 

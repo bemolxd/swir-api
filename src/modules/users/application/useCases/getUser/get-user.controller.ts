@@ -4,13 +4,16 @@ import {
   HttpException,
   NotFoundException,
   Param,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthenticatedGuard } from 'auth/guards';
 import { AppError } from 'shared/core';
 
 import { UserService } from '../../services';
 import { GetUserErrors } from './get-user.errors';
 
 @Controller()
+@UseGuards(AuthenticatedGuard)
 export class GetUserController {
   constructor(private readonly userService: UserService) {}
 

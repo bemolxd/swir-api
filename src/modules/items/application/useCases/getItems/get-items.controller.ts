@@ -1,4 +1,11 @@
-import { Controller, Get, HttpException, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpException,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthenticatedGuard } from 'auth/guards';
 import { AppError } from 'shared/core';
 
 import { ItemsCollectionQueryParams } from 'modules/items/adapter';
@@ -6,6 +13,7 @@ import { ItemsCollectionQueryParams } from 'modules/items/adapter';
 import { ItemService } from '../../services';
 
 @Controller()
+@UseGuards(AuthenticatedGuard)
 export class GetItemsController {
   constructor(private readonly itemService: ItemService) {}
 
