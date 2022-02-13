@@ -1,4 +1,11 @@
-import { Controller, Get, HttpException, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpException,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthenticatedGuard } from 'auth/guards';
 import { AppError } from 'shared/core';
 
 import { UsersCollectionQueryParams } from 'modules/users/adapter';
@@ -6,6 +13,7 @@ import { UsersCollectionQueryParams } from 'modules/users/adapter';
 import { UserService } from '../../services/user.service';
 
 @Controller()
+@UseGuards(AuthenticatedGuard)
 export class GetUsersController {
   constructor(private readonly userService: UserService) {}
 

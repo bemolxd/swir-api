@@ -4,7 +4,9 @@ import {
   Controller,
   HttpException,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthenticatedGuard } from 'auth/guards';
 import { AppError } from 'shared/core';
 
 import { ItemService } from '../../services';
@@ -13,6 +15,7 @@ import { CreateItemErrors } from './create-item.errors';
 import { CreateItemResponse } from './create-item.use-case';
 
 @Controller()
+@UseGuards(AuthenticatedGuard)
 export class CreateItemController {
   constructor(private readonly itemService: ItemService) {}
 

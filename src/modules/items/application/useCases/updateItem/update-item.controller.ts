@@ -5,7 +5,9 @@ import {
   NotFoundException,
   Param,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthenticatedGuard } from 'auth/guards';
 import { AppError } from 'shared/core';
 
 import { ItemService } from '../../services';
@@ -14,6 +16,7 @@ import { UpdateItemErrors } from './update-item.errors';
 import { UpdateItemResponse } from './update-item.use-case';
 
 @Controller()
+@UseGuards(AuthenticatedGuard)
 export class UpdateItemController {
   constructor(private readonly itemService: ItemService) {}
 
