@@ -1,7 +1,17 @@
-import { Body, Controller, Param, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpException,
+  NotFoundException,
+  Param,
+  Put,
+} from '@nestjs/common';
+import { AppError } from 'shared/core';
 
 import { ItemService } from '../../services';
 import { CreateItemDto } from '../createItem';
+import { UpdateItemErrors } from './update-item.errors';
+import { UpdateItemResponse } from './update-item.use-case';
 
 @Controller()
 export class UpdateItemController {
@@ -12,11 +22,19 @@ export class UpdateItemController {
     @Param('itemId') itemId: string,
     @Body() itemBodyDto: CreateItemDto,
   ) {
-    const updatedItem = await this.itemService.updateItem({
-      itemId,
-      ...itemBodyDto,
-    });
+    try {
+      const result: UpdateItemResponse = await this.itemService.updateItem({
+        itemId,
+        ...itemBodyDto,
+      });
 
-    return updatedItem;
+      if (result instanceof UpdateItemErrors.ItemNotFoundError) {
+        return new NotFoundException(result.message);
+      }
+
+      return result;
+    } catch (error) {
+      return new HttpException(new AppError.UnexpectedError(error), 500);
+    }
   }
 }
