@@ -4,10 +4,12 @@ import {
   HttpException,
   NotFoundException,
   Param,
+  Res,
   UseGuards,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { AuthenticatedGuard } from 'auth/guards';
-import { AppError } from 'shared/core';
+import { AppError, BaseController } from 'shared/core';
 
 import { ItemService } from '../../services';
 import { RemoveItemErrors } from './remove-item.errors';
@@ -15,23 +17,28 @@ import { RemoveItemResponse } from './remove-item.use-case';
 
 @Controller()
 @UseGuards(AuthenticatedGuard)
-export class RemoveItemController {
-  constructor(private readonly itemService: ItemService) {}
+export class RemoveItemController extends BaseController {
+  constructor(private readonly itemService: ItemService) {
+    super();
+  }
 
   @Delete('items/:itemId')
-  async removeItem(@Param('itemId') itemId: string) {
+  async removeItem(@Param('itemId') itemId: string, @Res() res: Response) {
     try {
       const result: RemoveItemResponse = await this.itemService.removeItem({
         itemId,
       });
 
       if (result instanceof RemoveItemErrors.ItemNotFoundError) {
-        return new NotFoundException(result.message);
+        return this.badRequest(res, result);
       }
 
-      return;
+      return this.ok(res);
     } catch (error) {
-      return new HttpException(new AppError.UnexpectedError(error), 500);
+      return this.fail<AppError.UnexpectedError>(
+        res,
+        new AppError.UnexpectedError(error),
+      );
     }
   }
 }
