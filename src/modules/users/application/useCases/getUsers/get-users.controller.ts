@@ -1,12 +1,7 @@
-import {
-  Controller,
-  Get,
-  HttpException,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
+import { Response } from 'express';
 import { AuthenticatedGuard } from 'auth/guards';
-import { AppError } from 'shared/core';
+import { AppError, BaseController } from 'shared/core';
 
 import { UsersCollectionQueryParams } from 'modules/users/adapter';
 
@@ -14,17 +9,25 @@ import { UserService } from '../../services/user.service';
 
 @Controller()
 @UseGuards(AuthenticatedGuard)
-export class GetUsersController {
-  constructor(private readonly userService: UserService) {}
+export class GetUsersController extends BaseController {
+  constructor(private readonly userService: UserService) {
+    super();
+  }
 
   @Get('users')
-  async getAllUsers(@Query() params: UsersCollectionQueryParams) {
+  async getAllUsers(
+    @Query() params: UsersCollectionQueryParams,
+    @Res() res: Response,
+  ) {
     try {
-      const users = this.userService.getAllUsers(params);
+      const users = await this.userService.getAllUsers(params);
 
-      return users;
+      return this.ok(res, users);
     } catch (error) {
-      return new HttpException(new AppError.UnexpectedError(error), 500);
+      return this.fail<AppError.UnexpectedError>(
+        res,
+        new AppError.UnexpectedError(error),
+      );
     }
   }
 }

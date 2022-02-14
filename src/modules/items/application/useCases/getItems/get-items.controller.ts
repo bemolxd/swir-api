@@ -1,12 +1,7 @@
-import {
-  Controller,
-  Get,
-  HttpException,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
+import { Response } from 'express';
 import { AuthenticatedGuard } from 'auth/guards';
-import { AppError } from 'shared/core';
+import { AppError, BaseController } from 'shared/core';
 
 import { ItemsCollectionQueryParams } from 'modules/items/adapter';
 
@@ -14,17 +9,25 @@ import { ItemService } from '../../services';
 
 @Controller()
 @UseGuards(AuthenticatedGuard)
-export class GetItemsController {
-  constructor(private readonly itemService: ItemService) {}
+export class GetItemsController extends BaseController {
+  constructor(private readonly itemService: ItemService) {
+    super();
+  }
 
   @Get('items')
-  async getAllItems(@Query() params: ItemsCollectionQueryParams) {
+  async getAllItems(
+    @Query() params: ItemsCollectionQueryParams,
+    @Res() res: Response,
+  ) {
     try {
       const items = await this.itemService.getAllItems(params);
 
-      return items;
+      return this.ok(res, items);
     } catch (error) {
-      return new HttpException(new AppError.UnexpectedError(error), 500);
+      return this.fail<AppError.UnexpectedError>(
+        res,
+        new AppError.UnexpectedError(error),
+      );
     }
   }
 }
