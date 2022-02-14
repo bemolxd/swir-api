@@ -14,6 +14,12 @@ export abstract class BaseController {
     return res.sendStatus(201);
   }
 
+  public badRequest(res: Response, { message }: ResponseBody) {
+    return BaseController.jsonResponse(res, 400, {
+      message: message ?? 'Bad request',
+    });
+  }
+
   public notFound(res: Response, { message }: ResponseBody) {
     return BaseController.jsonResponse(res, 404, {
       message: message ?? 'Not found',
