@@ -1,13 +1,4 @@
-import {
-  Body,
-  Controller,
-  HttpException,
-  NotFoundException,
-  Param,
-  Put,
-  Res,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Param, Put, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthenticatedGuard } from 'auth/guards';
 import { AppError, BaseController } from 'shared/core';
