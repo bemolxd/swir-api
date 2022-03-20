@@ -21,10 +21,10 @@ export class OrderEntity extends AbstractEntity {
   @Column('text', { array: true })
   items: string[];
 
-  @Column('text')
+  @Column('text', { nullable: true })
   tech_comment: string;
 
-  @Column('text')
+  @Column('text', { nullable: true })
   sender_comment: string;
 
   @Column()
