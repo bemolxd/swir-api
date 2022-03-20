@@ -3,7 +3,9 @@ import { QueryBus } from '@nestjs/cqrs';
 
 import { OrdersCollectionQueryParams } from 'modules/orders/adapter';
 
-import { GetOrdersQuery } from '../queries/implementations';
+import { GetOrderQuery, GetOrdersQuery } from '../queries/implementations';
+
+import { GetOrderDto } from '../useCases/getOrder';
 
 @Injectable()
 export class OrderService {
@@ -11,5 +13,9 @@ export class OrderService {
 
   async getAllOrders(params: OrdersCollectionQueryParams) {
     return this.queryBus.execute(new GetOrdersQuery(params));
+  }
+
+  async getOrderById(getOrderDto: GetOrderDto) {
+    return this.queryBus.execute(new GetOrderQuery(getOrderDto));
   }
 }

@@ -8,6 +8,8 @@ import { QueryHandlers } from './application/queries/handlers';
 
 import { OrderService } from './application/services';
 
+import { GetOrderUseCase } from './application/useCases/getOrder';
+
 import {
   GetOrdersController,
   GetOrdersUseCase,
@@ -16,6 +18,11 @@ import {
 @Module({
   imports: [CqrsModule, TypeOrmModule.forFeature([OrderRepository])],
   controllers: [GetOrdersController],
-  providers: [OrderService, ...QueryHandlers, GetOrdersUseCase],
+  providers: [
+    OrderService,
+    ...QueryHandlers,
+    GetOrdersUseCase,
+    GetOrderUseCase,
+  ],
 })
 export class OrdersModule {}
