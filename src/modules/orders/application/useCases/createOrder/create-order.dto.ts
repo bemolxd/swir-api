@@ -1,8 +1,6 @@
+import { SelectedItem } from 'modules/orders/domain';
+
 export class CreateOrderDto {
   senderId: string;
-  techId: string;
-  items: string[];
-  senderComment: string;
-  dateFrom: string;
-  dateTo: string;
+  items: SelectedItem[];
 }

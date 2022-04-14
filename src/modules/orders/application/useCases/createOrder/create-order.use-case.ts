@@ -23,19 +23,21 @@ export class CreateOrderUseCase
   async execute(dto: CreateOrderDto): Promise<CreateOrderResponse> {
     const newOrder = Order.create({
       senderId: dto.senderId,
-      techId: dto.techId,
       items: dto.items,
-      status: OrderStatus.PENDING,
+      status: OrderStatus.COMPLETING,
       isPublic: false,
-      dateFrom: dto.dateFrom,
-      dateTo: dto.dateTo,
+      techId: null,
+      dateFrom: null,
+      dateTo: null,
       techComment: null,
-      senderComment: dto.senderComment,
+      senderComment: null,
     });
 
     try {
       await this.orderRepository.persist(newOrder);
     } catch (error) {
+      console.error(error);
+
       return new CreateOrderErrors.OrderAlreadyExists();
     }
 

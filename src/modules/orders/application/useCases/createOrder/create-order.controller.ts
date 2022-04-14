@@ -1,6 +1,8 @@
-import { Body, Controller, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
+
 import { AppError, BaseController } from 'shared/core';
+import { AuthenticatedGuard } from 'auth/guards';
 
 import { OrderService } from '../../services';
 import { CreateOrderDto } from './create-order.dto';
@@ -8,7 +10,7 @@ import { CreateOrderErrors } from './create-order.errors';
 import { CreateOrderResponse } from './create-order.use-case';
 
 @Controller()
-// TODO: @UseGuards(AuthenticatedGuard)
+@UseGuards(AuthenticatedGuard)
 export class CreateOrderController extends BaseController {
   constructor(private readonly orderService: OrderService) {
     super();

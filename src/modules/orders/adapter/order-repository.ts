@@ -10,5 +10,5 @@ export interface IOrderRepository {
     params: OrdersCollectionQueryParams,
   ): Promise<QueryListResult<Order>>;
   persist(order: Order): Promise<void>;
-  updateItem(order: Order): Promise<void>;
+  updateOrder(order: Order): Promise<void>;
 }

@@ -1,17 +1,17 @@
 import { Entity, UniqueEntityID } from 'shared/domain';
 
 import { OrderId } from './order-id';
-import { OrderStatus } from './types';
+import { OrderStatus, SelectedItem } from './types';
 
 export interface OrderProps {
-  techId: string;
+  techId: string | null;
   senderId: string;
   status: OrderStatus;
-  items: string[];
-  techComment: string;
-  senderComment: string;
-  dateFrom: string;
-  dateTo: string;
+  items: SelectedItem[];
+  techComment: string | null;
+  senderComment: string | null;
+  dateFrom: string | null;
+  dateTo: string | null;
   isPublic: boolean;
 }
 

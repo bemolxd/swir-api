@@ -1,11 +1,11 @@
-import { OrderStatus } from 'modules/orders/domain';
+import { OrderStatus, SelectedItem } from 'modules/orders/domain';
 
 export class OrderDto {
   orderId: string;
   techId: string;
   senderId: string;
   status: OrderStatus;
-  items: string[];
+  items: SelectedItem[];
   techComment: string;
   senderComment: string;
   dateFrom: string;

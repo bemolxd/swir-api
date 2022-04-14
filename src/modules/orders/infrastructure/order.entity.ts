@@ -2,14 +2,14 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 import { AbstractEntity } from 'shared/core';
 
-import { OrderStatus } from '../domain/types';
+import { OrderStatus, SelectedItem } from '../domain/types';
 
 @Entity('orders')
 export class OrderEntity extends AbstractEntity {
   @PrimaryColumn()
   order_id: string;
 
-  @Column()
+  @Column('text', { nullable: true })
   tech_id: string;
 
   @Column()
@@ -18,8 +18,8 @@ export class OrderEntity extends AbstractEntity {
   @Column()
   status: OrderStatus;
 
-  @Column('text', { array: true })
-  items: string[];
+  @Column('jsonb', { default: '[]' })
+  items: SelectedItem[];
 
   @Column('text', { nullable: true })
   tech_comment: string;
@@ -27,10 +27,10 @@ export class OrderEntity extends AbstractEntity {
   @Column('text', { nullable: true })
   sender_comment: string;
 
-  @Column()
+  @Column('text', { nullable: true })
   date_from: string;
 
-  @Column()
+  @Column('text', { nullable: true })
   date_to: string;
 
   @Column()
