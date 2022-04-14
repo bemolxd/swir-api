@@ -22,4 +22,13 @@ export class AuthController {
   protected(@Req() req: Request) {
     return req.user;
   }
+
+  @Get('logout')
+  @UseGuards(AuthenticatedGuard)
+  logout(@Req() req: Request, @Res() res: Response) {
+    req.logout();
+    res.redirect(
+      `${process.env.OAUTH_LOGOUT_URL}?url=${process.env.APP_CLIENT_URL}/`,
+    );
+  }
 }

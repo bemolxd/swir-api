@@ -1,3 +1,8 @@
 import { QueryParams } from 'shared/core';
 
-export interface ItemsCollectionQueryParams extends QueryParams {}
+import { ItemCategory, ItemType } from '../domain/types';
+
+export interface ItemsCollectionQueryParams extends QueryParams {
+  type?: ItemType;
+  category?: ItemCategory;
+}

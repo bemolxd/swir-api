@@ -2,6 +2,10 @@ import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import * as passport from 'passport';
 import * as session from 'express-session';
+import { getRepository } from 'typeorm';
+import { TypeormStore } from 'connect-typeorm';
+
+import { TypeORMSession } from 'auth/session';
 
 import { AppModule } from './app.module';
 
@@ -10,15 +14,18 @@ async function bootstrap() {
     cors: { credentials: true, origin: process.env.APP_CLIENT_URL },
   });
 
+  const sessionRepository = getRepository(TypeORMSession);
+
   app.setGlobalPrefix('api');
   app.use(
     session({
       cookie: {
-        maxAge: 360000 * 24,
+        maxAge: 3600000 * 12,
       },
       secret: process.env.APP_COOKIE_SECRET,
       resave: false,
       saveUninitialized: false,
+      store: new TypeormStore().connect(sessionRepository),
     }),
   );
   app.use(passport.initialize());
