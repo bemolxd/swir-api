@@ -15,10 +15,14 @@ import {
   GetUserUseCase,
   GetUserController,
 } from './application/useCases/getUser';
+import {
+  GetAdminsController,
+  GetAdminsUseCase,
+} from './application/useCases/getAdmins';
 
 @Module({
   imports: [CqrsModule, TypeOrmModule.forFeature([UserRepository])],
-  controllers: [GetUsersController, GetUserController],
+  controllers: [GetUsersController, GetUserController, GetAdminsController],
   providers: [
     UserService,
     ...QueryHandlers,
@@ -26,6 +30,7 @@ import {
     GetUsersUseCase,
     GetUserUseCase,
     SignupUserUseCase,
+    GetAdminsUseCase,
   ],
 })
 export class UsersModule {}
