@@ -18,7 +18,7 @@ export class ChangeRoleController extends BaseController {
   @Put('users/:userId/role')
   async changeRole(
     @Param('userId') userId: string,
-    @Body() contextType: ContextType,
+    @Body('contextType') contextType: ContextType,
     @Res() res: Response,
   ) {
     try {
