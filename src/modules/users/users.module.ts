@@ -19,10 +19,19 @@ import {
   GetAdminsController,
   GetAdminsUseCase,
 } from './application/useCases/getAdmins';
+import {
+  ChangeRoleController,
+  ChangeRoleUseCase,
+} from './application/useCases/changeRole';
 
 @Module({
   imports: [CqrsModule, TypeOrmModule.forFeature([UserRepository])],
-  controllers: [GetUsersController, GetUserController, GetAdminsController],
+  controllers: [
+    GetUsersController,
+    GetUserController,
+    GetAdminsController,
+    ChangeRoleController,
+  ],
   providers: [
     UserService,
     ...QueryHandlers,
@@ -31,6 +40,7 @@ import {
     GetUserUseCase,
     SignupUserUseCase,
     GetAdminsUseCase,
+    ChangeRoleUseCase,
   ],
 })
 export class UsersModule {}

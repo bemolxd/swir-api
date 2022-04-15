@@ -10,4 +10,5 @@ export interface IUserRepository {
     params: UsersCollectionQueryParams,
   ): Promise<QueryListResult<User>>;
   persist(user: User): Promise<void>;
+  updateUser(user: User): Promise<void>;
 }

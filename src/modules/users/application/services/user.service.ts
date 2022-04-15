@@ -3,12 +3,16 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import { UsersCollectionQueryParams } from 'modules/users/adapter';
 
-import { SignupUserCommand } from '../commands/implementations';
+import {
+  ChangeRoleCommand,
+  SignupUserCommand,
+} from '../commands/implementations';
 import {
   GetUsersQuery,
   GetUserQuery,
   GetAdminsQuery,
 } from '../queries/implementations';
+import { ChangeRoleDto } from '../useCases/changeRole';
 import { GetUserDto } from '../useCases/getUser';
 import { CreateUserDto } from '../useCases/signupUser';
 
@@ -33,5 +37,9 @@ export class UserService {
 
   async getAdmins() {
     return this.queryBus.execute(new GetAdminsQuery());
+  }
+
+  async changeRole(changeRoleDto: ChangeRoleDto) {
+    return this.commandBus.execute(new ChangeRoleCommand(changeRoleDto));
   }
 }

@@ -62,4 +62,14 @@ export class UserRepository
 
     await this.create(userEntity).save();
   }
+
+  async updateUser(user: User): Promise<void> {
+    const existingUser = await this.exists(user.personalNumber);
+
+    if (!existingUser) throw new Error('User not found');
+
+    const userEntity = UserMap.toPersistance(user);
+
+    await this.save(userEntity);
+  }
 }
