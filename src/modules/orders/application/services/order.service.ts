@@ -16,6 +16,7 @@ import {
   DeleteOrderCommand,
   RemoveItemElementCommand,
   SubmitOrderCommand,
+  RejectOrderCommand,
 } from '../commands/implementations';
 
 import { GetOrderDto } from '../useCases/getOrder';
@@ -24,6 +25,7 @@ import { AddItemElementDto } from '../useCases/addItemElement';
 import { RemoveItemElementDto } from '../useCases/removeItemElement';
 import { DeleteOrderDto } from '../useCases/deleteOrder';
 import { SubmitOrderDto } from '../useCases/submitOrder';
+import { RejectOrderDto } from '../useCases/rejectOrder';
 
 @Injectable()
 export class OrderService {
@@ -69,5 +71,9 @@ export class OrderService {
 
   async submitOrder(submitOrderDto: SubmitOrderDto) {
     return this.commandBus.execute(new SubmitOrderCommand(submitOrderDto));
+  }
+
+  async rejectOrder(rejectOrderDto: RejectOrderDto) {
+    return this.commandBus.execute(new RejectOrderCommand(rejectOrderDto));
   }
 }
