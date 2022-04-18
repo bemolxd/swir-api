@@ -26,6 +26,7 @@ export class CreateOrderUseCase
       items: dto.items,
       status: OrderStatus.COMPLETING,
       isPublic: false,
+      isRejected: false,
       techId: null,
       dateFrom: null,
       dateTo: null,

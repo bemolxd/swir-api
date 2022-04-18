@@ -11,4 +11,5 @@ export class OrderDto {
   dateFrom: string;
   dateTo: string;
   isPublic: boolean;
+  isRejected: boolean;
 }

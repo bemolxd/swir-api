@@ -39,6 +39,10 @@ import {
 } from './application/useCases/deleteOrder';
 import { SubmitOrderUseCase } from './application/useCases/submitOrder';
 import { SubmitOrderController } from './application/useCases/submitOrder/submit-order.controller';
+import {
+  RejectOrderController,
+  RejectOrderUseCase,
+} from './application/useCases/rejectOrder';
 
 @Module({
   imports: [CqrsModule, TypeOrmModule.forFeature([OrderRepository])],
@@ -51,6 +55,7 @@ import { SubmitOrderController } from './application/useCases/submitOrder/submit
     RemoveItemElementController,
     DeleteOrderController,
     SubmitOrderController,
+    RejectOrderController,
   ],
   providers: [
     OrderService,
@@ -64,6 +69,7 @@ import { SubmitOrderController } from './application/useCases/submitOrder/submit
     RemoveItemElementUseCase,
     DeleteOrderUseCase,
     SubmitOrderUseCase,
+    RejectOrderUseCase,
   ],
 })
 export class OrdersModule {}

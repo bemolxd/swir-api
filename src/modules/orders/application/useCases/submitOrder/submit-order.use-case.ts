@@ -28,6 +28,7 @@ export class SubmitOrderUseCase
         dateFrom: dto.dateFrom,
         dateTo: dto.dateTo,
         isPublic: false,
+        isRejected: false,
         status: OrderStatus.PENDING,
         techComment: null,
       },
