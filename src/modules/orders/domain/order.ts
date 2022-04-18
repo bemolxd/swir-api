@@ -13,6 +13,7 @@ export interface OrderProps {
   dateFrom: string | null;
   dateTo: string | null;
   isPublic: boolean;
+  isRejected: boolean;
 }
 
 export class Order extends Entity<OrderProps> {
@@ -54,6 +55,10 @@ export class Order extends Entity<OrderProps> {
 
   get isPublic() {
     return this.props.isPublic;
+  }
+
+  get isRejected() {
+    return this.props.isRejected;
   }
 
   private constructor(props: OrderProps, id?: UniqueEntityID) {

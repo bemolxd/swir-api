@@ -35,4 +35,7 @@ export class OrderEntity extends AbstractEntity {
 
   @Column()
   is_public: boolean;
+
+  @Column()
+  is_rejected: boolean;
 }
