@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
 import { AppError, BaseController } from 'shared/core';

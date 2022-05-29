@@ -1,4 +1,5 @@
-import { Body, Controller, Param, Put, Res } from '@nestjs/common';
+import { Body, Controller, Param, Put, Res, UseGuards } from '@nestjs/common';
+import { AuthenticatedGuard } from 'auth/guards';
 import { Response } from 'express';
 
 import { AppError, BaseController } from 'shared/core';
@@ -9,6 +10,7 @@ import { AddItemElementErrors } from './add-item-element.errors';
 import { AddItemElementResponse } from './add-item-element.use-case';
 
 @Controller()
+@UseGuards(AuthenticatedGuard)
 export class AddItemElementController extends BaseController {
   constructor(private readonly orderService: OrderService) {
     super();
