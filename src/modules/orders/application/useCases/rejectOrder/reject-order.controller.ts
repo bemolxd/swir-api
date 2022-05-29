@@ -1,4 +1,5 @@
-import { Body, Controller, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
+import { AuthenticatedGuard } from 'auth/guards';
 import { Response } from 'express';
 import { AppError, BaseController } from 'shared/core';
 
@@ -7,6 +8,7 @@ import { RejectOrderErrors } from './reject-order.errors';
 import { RejectOrderResponse } from './reject-order.use-case';
 
 @Controller()
+@UseGuards(AuthenticatedGuard)
 export class RejectOrderController extends BaseController {
   constructor(private readonly orderService: OrderService) {
     super();
@@ -15,7 +17,7 @@ export class RejectOrderController extends BaseController {
   @Post('orders/:orderId/reject')
   async rejectOrder(
     @Param('orderId') orderId: string,
-    @Body() techComment: string,
+    @Body('techComment') techComment: string,
     @Res() res: Response,
   ) {
     try {

@@ -1,4 +1,5 @@
-import { Controller, Get, Param, Res } from '@nestjs/common';
+import { Controller, Get, Param, Res, UseGuards } from '@nestjs/common';
+import { AuthenticatedGuard } from 'auth/guards';
 import { Response } from 'express';
 import { AppError, BaseController } from 'shared/core';
 
@@ -7,6 +8,7 @@ import { GetOrderErrors } from './get-order.errors';
 import { GetOrderResponse } from './get-order.use-case';
 
 @Controller()
+@UseGuards(AuthenticatedGuard)
 export class GetOrderController extends BaseController {
   constructor(private readonly orderService: OrderService) {
     super();
