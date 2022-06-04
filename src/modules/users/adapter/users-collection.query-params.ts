@@ -1,3 +1,7 @@
 import { QueryParams } from 'shared/core';
 
-export interface UsersCollectionQueryParams extends QueryParams {}
+import { ContextType } from '../domain/types';
+
+export interface UsersCollectionQueryParams extends QueryParams {
+  contextType?: ContextType;
+}

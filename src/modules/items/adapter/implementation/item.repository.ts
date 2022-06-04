@@ -31,11 +31,26 @@ export class ItemRepository
   async getAllItems({
     limit = 10,
     offset = 0,
+    type,
+    category,
+    search = '',
   }: ItemsCollectionQueryParams): Promise<QueryListResult<Item>> {
     const query = this.createPaginatedQueryBuilder('items', {
       limit,
       offset,
-    });
+    }).where(`items.name ilike '%${search}%'`);
+
+    if (type) {
+      query.where(`items.type in (:...type)`, {
+        type: type.split(','),
+      });
+    }
+
+    if (category) {
+      query.where(`items.category in (:...category)`, {
+        category: category.split(','),
+      });
+    }
 
     const [collection, total] = await query.getManyAndCount();
 

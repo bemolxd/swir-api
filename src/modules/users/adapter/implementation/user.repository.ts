@@ -38,8 +38,15 @@ export class UserRepository
   async getAllUsers({
     limit = 10,
     offset = 0,
+    contextType,
   }: UsersCollectionQueryParams): Promise<QueryListResult<User>> {
     const query = this.createPaginatedQueryBuilder('users', { limit, offset });
+
+    if (contextType) {
+      query.where(`users.context_type in (:...contextType)`, {
+        contextType: contextType.split(','),
+      });
+    }
 
     const [collection, total] = await query.getManyAndCount();
 
