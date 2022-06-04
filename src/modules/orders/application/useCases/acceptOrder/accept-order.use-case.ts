@@ -32,7 +32,7 @@ export class AcceptOrderUseCase
           isPublic: true,
           items: dto.items,
           isRejected: false,
-          status: OrderStatus.AWARDED,
+          status: OrderStatus.PUBLISHED,
           techComment: dto.techComment,
         },
         new UniqueEntityID(dto.orderId),
