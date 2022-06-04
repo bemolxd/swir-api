@@ -47,7 +47,7 @@ export class ItemRepository
     }
 
     if (category) {
-      query.where(`items.type in (:...category)`, {
+      query.where(`items.category in (:...category)`, {
         category: category.split(','),
       });
     }
