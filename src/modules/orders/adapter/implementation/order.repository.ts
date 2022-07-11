@@ -37,7 +37,9 @@ export class OrderRepository
       offset,
     });
 
-    const [collection, total] = await query.getManyAndCount();
+    const [collection, total] = await query
+      .orderBy('orders.updatedAt', 'DESC')
+      .getManyAndCount();
 
     return {
       collection: OrderMap.toDomainBulk(collection),
@@ -60,6 +62,7 @@ export class OrderRepository
 
     const [collection, total] = await query
       .where('sender_id = :senderId', { senderId })
+      .orderBy('orders.updatedAt', 'DESC')
       .getManyAndCount();
 
     return {

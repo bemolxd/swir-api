@@ -18,6 +18,7 @@ import {
   SubmitOrderCommand,
   RejectOrderCommand,
   AcceptOrderCommand,
+  FinishOrderCommand,
 } from '../commands/implementations';
 
 import { GetOrderDto } from '../useCases/getOrder';
@@ -28,6 +29,7 @@ import { DeleteOrderDto } from '../useCases/deleteOrder';
 import { SubmitOrderDto } from '../useCases/submitOrder';
 import { RejectOrderDto } from '../useCases/rejectOrder';
 import { AcceptOrderDto } from '../useCases/acceptOrder';
+import { FinishOrderDto } from '../useCases/finishOrder';
 
 @Injectable()
 export class OrderService {
@@ -81,5 +83,9 @@ export class OrderService {
 
   async acceptOrder(acceptOrderDto: AcceptOrderDto) {
     return this.commandBus.execute(new AcceptOrderCommand(acceptOrderDto));
+  }
+
+  async finishOrder(finishOrderDto: FinishOrderDto) {
+    return this.commandBus.execute(new FinishOrderCommand(finishOrderDto));
   }
 }
