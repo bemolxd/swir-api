@@ -1,3 +1,4 @@
+import { AcceptOrderHandler } from './accept-order.handler';
 import { AddItemElementHandler } from './add-item-element.handler';
 import { CreateOrderHandler } from './create-order.handler';
 import { DeleteOrderHandler } from './delete-order.handler';
@@ -12,4 +13,5 @@ export const CommandHandlers = [
   DeleteOrderHandler,
   SubmitOrderHandler,
   RejectOrderHandler,
+  AcceptOrderHandler,
 ];

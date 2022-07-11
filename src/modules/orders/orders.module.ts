@@ -43,6 +43,10 @@ import {
   RejectOrderController,
   RejectOrderUseCase,
 } from './application/useCases/rejectOrder';
+import {
+  AcceptOrderController,
+  AcceptOrderUseCase,
+} from './application/useCases/acceptOrder';
 
 @Module({
   imports: [CqrsModule, TypeOrmModule.forFeature([OrderRepository])],
@@ -56,6 +60,7 @@ import {
     DeleteOrderController,
     SubmitOrderController,
     RejectOrderController,
+    AcceptOrderController,
   ],
   providers: [
     OrderService,
@@ -70,6 +75,7 @@ import {
     DeleteOrderUseCase,
     SubmitOrderUseCase,
     RejectOrderUseCase,
+    AcceptOrderUseCase,
   ],
 })
 export class OrdersModule {}
