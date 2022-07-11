@@ -5,3 +5,4 @@ export { DeleteOrderCommand } from './delete-order.command';
 export { SubmitOrderCommand } from './submit-order.command';
 export { RejectOrderCommand } from './reject-order.command';
 export { AcceptOrderCommand } from './accept-order.command';
+export { FinishOrderCommand } from './finish-order.command';

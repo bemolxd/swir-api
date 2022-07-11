@@ -5,6 +5,7 @@ import {
 } from './addItemElement';
 import { CreateOrderController, CreateOrderUseCase } from './createOrder';
 import { DeleteOrderController, DeleteOrderUseCase } from './deleteOrder';
+import { FinishOrderController, FinishOrderUseCase } from './finishOrder';
 import { GetOrderController, GetOrderUseCase } from './getOrder';
 import { GetOrdersController, GetOrdersUseCase } from './getOrders';
 import { GetUserOrdersController, GetUserOrdersUseCase } from './getUserOrders';
@@ -26,6 +27,7 @@ export const OrderControllers = [
   SubmitOrderController,
   RejectOrderController,
   AcceptOrderController,
+  FinishOrderController,
 ];
 export const OrderUseCases = [
   GetOrdersUseCase,
@@ -38,4 +40,5 @@ export const OrderUseCases = [
   SubmitOrderUseCase,
   RejectOrderUseCase,
   AcceptOrderUseCase,
+  FinishOrderUseCase,
 ];
