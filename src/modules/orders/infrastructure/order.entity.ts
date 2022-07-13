@@ -38,4 +38,7 @@ export class OrderEntity extends AbstractEntity {
 
   @Column()
   is_rejected: boolean;
+
+  @Column()
+  is_archived: boolean;
 }

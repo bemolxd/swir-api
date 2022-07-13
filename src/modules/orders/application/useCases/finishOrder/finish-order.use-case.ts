@@ -34,6 +34,7 @@ export class FinishOrderUseCase
           isPublic: false,
           status: OrderStatus.FINISHED,
           techComment: dto.techComment,
+          isArchived: true,
         },
         new UniqueEntityID(dto.orderId),
       );

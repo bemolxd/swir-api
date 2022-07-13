@@ -14,6 +14,7 @@ export interface OrderProps {
   dateTo: string | null;
   isPublic: boolean;
   isRejected: boolean;
+  isArchived: boolean;
 }
 
 export class Order extends Entity<OrderProps> {
@@ -59,6 +60,10 @@ export class Order extends Entity<OrderProps> {
 
   get isRejected() {
     return this.props.isRejected;
+  }
+
+  get isArchived() {
+    return this.props.isArchived;
   }
 
   private constructor(props: OrderProps, id?: UniqueEntityID) {

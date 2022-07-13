@@ -31,6 +31,7 @@ export class SubmitOrderUseCase
         isRejected: false,
         status: OrderStatus.PENDING,
         techComment: null,
+        isArchived: false,
       },
       new UniqueEntityID(dto.orderId),
     );

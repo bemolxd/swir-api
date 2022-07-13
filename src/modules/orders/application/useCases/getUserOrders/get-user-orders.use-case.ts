@@ -17,10 +17,7 @@ export class GetUserOrdersUseCase
     params: QueryParams,
     senderId: string,
   ): Promise<OrdersCollectionDto> {
-    const orders = await this.orderRepository.getAllUserOrders(
-      params,
-      senderId,
-    );
+    const orders = await this.orderRepository.getActiveOrders(params, senderId);
 
     return {
       collection: OrderMap.toDtoBulk(orders.collection),

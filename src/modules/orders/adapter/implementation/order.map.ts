@@ -22,6 +22,7 @@ export class OrderMap {
       dateTo: order.dateTo,
       isPublic: order.isPublic,
       isRejected: order.isRejected,
+      isArchived: order.isArchived,
     };
   }
 
@@ -39,6 +40,7 @@ export class OrderMap {
           dateTo: entity.date_to,
           isPublic: entity.is_public,
           isRejected: entity.is_rejected,
+          isArchived: entity.is_archived,
         },
         new UniqueEntityID(entity.order_id),
       ),
@@ -58,6 +60,7 @@ export class OrderMap {
         dateTo: entity.date_to,
         isPublic: entity.is_public,
         isRejected: entity.is_rejected,
+        isArchived: entity.is_archived,
       },
       new UniqueEntityID(entity.order_id),
     );
@@ -76,6 +79,7 @@ export class OrderMap {
         dateTo: dto.dateTo,
         isPublic: dto.isPublic,
         isRejected: dto.isRejected,
+        isArchived: dto.isArchived,
       },
       new UniqueEntityID(dto.orderId),
     );
@@ -94,6 +98,7 @@ export class OrderMap {
       date_to: order.dateTo,
       is_public: order.isPublic,
       is_rejected: order.isRejected,
+      is_archived: order.isArchived,
     };
   }
 }

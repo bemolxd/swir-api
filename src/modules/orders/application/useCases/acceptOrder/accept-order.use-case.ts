@@ -34,6 +34,7 @@ export class AcceptOrderUseCase
           isRejected: false,
           status: OrderStatus.PUBLISHED,
           techComment: dto.techComment,
+          isArchived: order.isArchived,
         },
         new UniqueEntityID(dto.orderId),
       );
