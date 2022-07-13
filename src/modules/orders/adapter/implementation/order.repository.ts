@@ -3,7 +3,7 @@ import { EntityRepository } from 'typeorm';
 import { BaseRepository, QueryListResult, QueryParams } from 'shared/core';
 
 import { OrderEntity } from 'modules/orders/infrastructure';
-import { Order } from 'modules/orders/domain';
+import { Order, OrderStatus } from 'modules/orders/domain';
 
 import { OrderMap } from './order.map';
 import { IOrderRepository } from '../order-repository';
@@ -28,40 +28,18 @@ export class OrderRepository
     return OrderMap.toDomain(order);
   }
 
-  async getAllOrders({
-    limit = 10,
-    offset = 0,
-  }: OrdersCollectionQueryParams): Promise<QueryListResult<Order>> {
+  async getActiveOrders(
+    { limit = 10, offset = 0 }: OrdersCollectionQueryParams,
+    senderId = '',
+  ): Promise<QueryListResult<Order>> {
     const query = this.createPaginatedQueryBuilder('orders', {
       limit,
       offset,
     });
 
     const [collection, total] = await query
-      .orderBy('orders.updatedAt', 'DESC')
-      .getManyAndCount();
-
-    return {
-      collection: OrderMap.toDomainBulk(collection),
-      meta: {
-        limit,
-        offset,
-        total,
-      },
-    };
-  }
-
-  async getAllUserOrders(
-    { limit = 10, offset = 0 }: QueryParams,
-    senderId: string,
-  ) {
-    const query = this.createPaginatedQueryBuilder('orders', {
-      limit,
-      offset,
-    });
-
-    const [collection, total] = await query
-      .where('sender_id = :senderId', { senderId })
+      .where(`orders.sender_id ilike '%${senderId}%`)
+      .where(`orders.is_archived = false`)
       .orderBy('orders.updatedAt', 'DESC')
       .getManyAndCount();
 
