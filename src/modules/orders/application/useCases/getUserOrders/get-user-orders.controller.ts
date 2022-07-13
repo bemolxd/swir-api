@@ -20,7 +20,7 @@ export class GetUserOrdersController extends BaseController {
     @Res() res: Response,
   ) {
     try {
-      const orders = await this.orderService.getAllUserOrders(params, senderId);
+      const orders = await this.orderService.getActiveOrders(params, senderId);
 
       return this.ok(res, orders);
     } catch (error) {

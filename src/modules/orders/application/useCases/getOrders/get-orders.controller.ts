@@ -21,7 +21,7 @@ export class GetOrdersController extends BaseController {
     @Res() res: Response,
   ) {
     try {
-      const orders = await this.orderService.getAllOrders(params);
+      const orders = await this.orderService.getActiveOrders(params);
 
       return this.ok(res, orders);
     } catch (error) {
