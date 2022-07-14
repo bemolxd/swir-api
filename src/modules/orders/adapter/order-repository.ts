@@ -6,9 +6,10 @@ import { OrdersCollectionQueryParams } from './orders-collection.query-params';
 export interface IOrderRepository {
   exists(orderId: string): Promise<boolean>;
   getOrderById(orderId: string): Promise<Order>;
-  getActiveOrders(
+  getAllOrders(
     params: OrdersCollectionQueryParams,
     senderId?: string,
+    isArchived?: boolean,
   ): Promise<QueryListResult<Order>>;
   persist(order: Order): Promise<void>;
   updateOrder(order: Order): Promise<void>;

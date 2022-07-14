@@ -28,9 +28,10 @@ export class OrderRepository
     return OrderMap.toDomain(order);
   }
 
-  async getActiveOrders(
+  async getAllOrders(
     { limit = 10, offset = 0 }: OrdersCollectionQueryParams,
     senderId = '',
+    isArchived = false,
   ): Promise<QueryListResult<Order>> {
     const query = this.createPaginatedQueryBuilder('orders', {
       limit,
@@ -39,7 +40,7 @@ export class OrderRepository
 
     const [collection, total] = await query
       .where(`orders.sender_id ilike '%${senderId}%`)
-      .where(`orders.is_archived = false`)
+      .where(`orders.is_archived = ${isArchived}`)
       .orderBy('orders.updatedAt', 'DESC')
       .getManyAndCount();
 
