@@ -12,4 +12,5 @@ export class OrderDto {
   dateTo: string;
   isPublic: boolean;
   isRejected: boolean;
+  isArchived: boolean;
 }

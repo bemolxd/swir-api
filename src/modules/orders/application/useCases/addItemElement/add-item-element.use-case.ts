@@ -46,6 +46,7 @@ export class AddItemElementUseCase
             status: order.status,
             isPublic: order.isPublic,
             isRejected: order.isRejected,
+            isArchived: order.isArchived,
             items: order.items.map((item) => {
               if (item.itemId === dto.item.itemId) {
                 return {
@@ -75,6 +76,7 @@ export class AddItemElementUseCase
           status: order.status,
           isPublic: order.isPublic,
           isRejected: order.isRejected,
+          isArchived: order.isArchived,
           items: [...order.items, dto.item],
         },
         new UniqueEntityID(orderId),

@@ -32,6 +32,7 @@ export class CreateOrderUseCase
       dateTo: null,
       techComment: null,
       senderComment: null,
+      isArchived: false,
     });
 
     try {

@@ -38,12 +38,14 @@ export class OrderService {
     private readonly commandBus: CommandBus,
   ) {}
 
-  async getAllOrders(params: OrdersCollectionQueryParams) {
-    return this.queryBus.execute(new GetOrdersQuery(params));
-  }
+  async getActiveOrders(
+    params: OrdersCollectionQueryParams,
+    senderId?: string,
+  ) {
+    if (!!senderId)
+      return this.queryBus.execute(new GetUserOrdersQuery(params, senderId));
 
-  async getAllUserOrders(params: QueryParams, senderId: string) {
-    return this.queryBus.execute(new GetUserOrdersQuery(params, senderId));
+    return this.queryBus.execute(new GetOrdersQuery(params));
   }
 
   async getOrderById(getOrderDto: GetOrderDto) {

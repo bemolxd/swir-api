@@ -39,6 +39,7 @@ export class RemoveItemElementUseCase
           status: order.status,
           isPublic: order.isPublic,
           isRejected: order.isRejected,
+          isArchived: order.isArchived,
           items: order.items.filter((item) => item.itemId !== dto.itemId),
         },
         new UniqueEntityID(orderId),
