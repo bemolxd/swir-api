@@ -2,9 +2,29 @@
 
 Usługa stworzona w ramach pracy dyplomowej pt. "Opracowanie serwisu do rezerwacji i wypożyczeń sprzętu w Katedrze Systemów Multimedialnych".
 
-## Założenia projektowe
+## Dokumentacja
 
-Opracowanie serwisu ma na celu poprawę i usystematyzowanie procesu wypożyczania i rezerwacji sprzętu, w którego posiadaniu jest KSM. Po stronie zwykłego użytkownika system zapewnia `TODO`. Po stronie administratora (pracownika Katedry) system pozwala na `TODO`.
+Dokumentacja API znajduje się [pod tym linkiem](https://multimed.org/swir/api).
+
+## Funkcjonalność
+
+Opracowanie serwisu ma na celu poprawę i usystematyzowanie procesu wypożyczania i rezerwacji sprzętu, w którego posiadaniu jest KSM. Po stronie zwykłego użytkownika system zapewnia:
+
+- wgląd do bazy urządzeń KSM,
+- możliwość sprawdzenia dostępności sprzętu,
+- możliwość stworzenia (poprzez dodanie urządzenia) zgłoszenia i przesłania go do pracownika KSM,
+- wgląd do wszystkich swoich aktywnych i/lub kompletowanych zgłoszeń,
+- wgląd do wszystkich swoich archiwalnych zgłoszeń.
+
+Po stronie administratora (pracownika Katedry) system pozwala na:
+
+- wgląd do bazy urządzeń KSM i modyfikowanie zawartości (dodawanie, edytowanie, usuwanie),
+- możliwość sprawdzenia dostępności sprzętu,
+- możliwość zarządania zgłoszeniami (odrzucanie, akceptacja -> finalizacja),
+- wgląd do wszystkich przesłanych zgłoszeń,
+- wgląd do wszystkich zarchiwizowanych zgłoszeń,
+- wgląd do wszystkich użytkowników systemu i zarządzanie ich uprawnieniami,
+- wgląd do wszystkich zgłoszeń danego użytkownika (widok szczegółu użytkownika).
 
 ## Auth
 
