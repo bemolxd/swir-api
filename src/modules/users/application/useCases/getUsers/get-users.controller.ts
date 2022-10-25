@@ -1,4 +1,5 @@
 import { Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
+import { ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import {
   AuthenticatedGuard,
@@ -11,7 +12,9 @@ import { UsersCollectionQueryParams } from 'modules/users/adapter';
 import { ContextType } from 'modules/users/domain/types';
 
 import { UserService } from '../../services/user.service';
+import { UsersCollectionDto } from '../../dto';
 
+@ApiTags('Users')
 @Controller()
 @UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class GetUsersController extends BaseController {
@@ -20,6 +23,11 @@ export class GetUsersController extends BaseController {
   }
 
   @Get('users')
+  @ApiOkResponse({ type: UsersCollectionDto })
+  @ApiQuery({ name: 'offset', type: 'number', required: false })
+  @ApiQuery({ name: 'limit', type: 'number', required: false })
+  @ApiQuery({ name: 'search', type: 'string', required: false })
+  @ApiQuery({ name: 'contextType', enum: ContextType, required: false })
   @ContextTypes(ContextType.GLOBAL, ContextType.TECH)
   async getAllUsers(
     @Query() params: UsersCollectionQueryParams,

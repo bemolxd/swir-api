@@ -1,4 +1,5 @@
 import { Controller, Get, Param, Req, Res, UseGuards } from '@nestjs/common';
+import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import {
   AuthenticatedGuard,
@@ -12,7 +13,9 @@ import { ContextType } from 'modules/users/domain/types';
 
 import { UserService } from '../../services';
 import { GetUserErrors } from './get-user.errors';
+import { UserDto } from '../../dto';
 
+@ApiTags('Users')
 @Controller()
 @UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class GetUserController extends BaseController {
@@ -21,6 +24,8 @@ export class GetUserController extends BaseController {
   }
 
   @Get('users/:userId')
+  @ApiOkResponse({ type: UserDto })
+  @ApiNotFoundResponse({ description: 'User not found' })
   @ContextTypes(ContextType.GLOBAL, ContextType.TECH, ContextType.USER)
   async getUserById(
     @Param('userId') userId: string,
