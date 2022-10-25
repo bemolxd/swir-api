@@ -1,4 +1,5 @@
 import { Controller, Get, Param, Query, Res, UseGuards } from '@nestjs/common';
+import { ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
 import {
@@ -11,7 +12,9 @@ import { AppError, BaseController, QueryParams } from 'shared/core';
 import { ContextType } from 'modules/users/domain/types';
 
 import { OrderService } from '../../services';
+import { OrdersCollectionDto } from '../../dto';
 
+@ApiTags('Orders')
 @Controller()
 @UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class GetUserOrdersController extends BaseController {
@@ -21,6 +24,13 @@ export class GetUserOrdersController extends BaseController {
 
   @Get('users/:senderId/orders')
   @ContextTypes(ContextType.USER)
+  @ApiOkResponse({ type: OrdersCollectionDto })
+  @ApiQuery({ name: 'offset', type: 'number', required: false })
+  @ApiQuery({ name: 'limit', type: 'number', required: false })
+  @ApiQuery({ name: 'search', type: 'string', required: false })
+  @ApiQuery({ name: 'order', type: 'string', required: false })
+  @ApiQuery({ name: 'senderId', type: 'string', required: false })
+  @ApiQuery({ name: 'techId', type: 'string', required: false })
   async getAllUserOrders(
     @Query() params: QueryParams,
     @Param('senderId') senderId: string,

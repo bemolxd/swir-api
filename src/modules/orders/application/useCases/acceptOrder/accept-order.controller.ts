@@ -1,4 +1,5 @@
 import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
+import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import {
   AuthenticatedGuard,
   ContextTypeGuard,
@@ -13,7 +14,9 @@ import { OrderService } from '../../services';
 import { AcceptOrderBodyDto } from './accept-order.dto';
 import { AcceptOrderErrors } from './accept-order.errors';
 import { AcceptOrderResponse } from './accept-order.use-case';
+import { OrderDto } from '../../dto';
 
+@ApiTags('Orders')
 @Controller()
 @UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class AcceptOrderController extends BaseController {
@@ -23,6 +26,8 @@ export class AcceptOrderController extends BaseController {
 
   @Post('orders/:orderId/accept')
   @ContextTypes(ContextType.GLOBAL, ContextType.TECH)
+  @ApiOkResponse({ type: OrderDto })
+  @ApiNotFoundResponse({ description: 'Order not found' })
   async acceptOrder(
     @Param('orderId') orderId: string,
     @Body() dto: AcceptOrderBodyDto,

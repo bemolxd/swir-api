@@ -1,4 +1,5 @@
 import { Body, Controller, Param, Put, Res, UseGuards } from '@nestjs/common';
+import { ApiBody, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import {
   AuthenticatedGuard,
@@ -13,7 +14,9 @@ import { AppError, BaseController } from 'shared/core';
 import { UserService } from '../../services';
 import { ChangeRoleErrors } from './change-role.errors';
 import { ChangeRoleResponse } from './change-role.use-case';
+import { ChangeRoleDto } from './change-role.dto';
 
+@ApiTags('Users')
 @Controller()
 @UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class ChangeRoleController extends BaseController {
@@ -22,6 +25,8 @@ export class ChangeRoleController extends BaseController {
   }
 
   @Put('users/:userId/role')
+  @ApiOkResponse({ description: 'Role changed' })
+  @ApiBody({ type: ChangeRoleDto })
   @ContextTypes(ContextType.GLOBAL)
   async changeRole(
     @Param('userId') userId: string,

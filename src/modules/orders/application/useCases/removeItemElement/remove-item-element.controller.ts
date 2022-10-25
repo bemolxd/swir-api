@@ -1,4 +1,5 @@
 import { Body, Controller, Param, Put, Res, UseGuards } from '@nestjs/common';
+import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import {
   AuthenticatedGuard,
   ContextTypeGuard,
@@ -14,7 +15,9 @@ import { OrderService } from '../../services';
 import { RemoveItemElementDto } from './remove-item-element.dto';
 import { RemoveItemElementErrors } from './remove-item-element.errors';
 import { RemoveItemElementResponse } from './remove-item-element.use-case';
+import { OrderDto } from '../../dto';
 
+@ApiTags('Orders')
 @Controller()
 @UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class RemoveItemElementController extends BaseController {
@@ -24,6 +27,8 @@ export class RemoveItemElementController extends BaseController {
 
   @Put('orders/:orderId/removeElement')
   @ContextTypes(ContextType.GLOBAL, ContextType.TECH, ContextType.USER)
+  @ApiOkResponse({ type: OrderDto })
+  @ApiNotFoundResponse({ description: 'Order not found' })
   async removeElement(
     @Body() removeElementDto: RemoveItemElementDto,
     @Param('orderId') orderId: string,

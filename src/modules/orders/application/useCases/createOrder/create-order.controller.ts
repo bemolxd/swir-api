@@ -1,4 +1,5 @@
 import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
+import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
 import { AppError, BaseController } from 'shared/core';
@@ -14,7 +15,9 @@ import { OrderService } from '../../services';
 import { CreateOrderDto } from './create-order.dto';
 import { CreateOrderErrors } from './create-order.errors';
 import { CreateOrderResponse } from './create-order.use-case';
+import { OrderDto } from '../../dto';
 
+@ApiTags('Orders')
 @Controller()
 @UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class CreateOrderController extends BaseController {
@@ -24,6 +27,7 @@ export class CreateOrderController extends BaseController {
 
   @Post('orders')
   @ContextTypes(ContextType.USER)
+  @ApiCreatedResponse({ description: 'Order created', type: OrderDto })
   async createOrder(
     @Body() createOrderDto: CreateOrderDto,
     @Res() res: Response,

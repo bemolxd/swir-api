@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
+import { SwaggerModule } from '@nestjs/swagger';
 import * as passport from 'passport';
 import * as session from 'express-session';
 import { getRepository } from 'typeorm';
@@ -8,6 +9,7 @@ import { TypeormStore } from 'connect-typeorm';
 import { TypeORMSession } from 'auth/session';
 
 import { AppModule } from './app.module';
+import { customOptions, swaggerConfig } from './swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -32,6 +34,9 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
+
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('api', app, document, customOptions);
 
   await app.listen(parseInt(process.env.APP_PORT) || 80);
 }

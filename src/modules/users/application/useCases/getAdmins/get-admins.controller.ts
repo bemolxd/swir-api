@@ -1,4 +1,5 @@
 import { Controller, Get, Res, UseGuards } from '@nestjs/common';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
 import {
@@ -12,7 +13,9 @@ import { AppError, BaseController } from 'shared/core';
 import { ContextType } from 'modules/users/domain/types';
 
 import { UserService } from '../../services';
+import { UsersCollectionDto } from '../../dto';
 
+@ApiTags('Users')
 @Controller()
 @UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class GetAdminsController extends BaseController {
@@ -21,6 +24,7 @@ export class GetAdminsController extends BaseController {
   }
 
   @Get('admins')
+  @ApiOkResponse({ type: UsersCollectionDto })
   @ContextTypes(ContextType.GLOBAL, ContextType.TECH, ContextType.USER)
   async getAdmins(@Res() res: Response) {
     try {

@@ -1,6 +1,6 @@
 {
   "name": "swir-api",
-  "version": "1.0.0",
+  "version": "0.1.1-rc2",
   "description": "",
   "author": "",
   "private": true,
@@ -22,6 +22,7 @@
     "@nestjs/cqrs": "^8.0.1",
     "@nestjs/passport": "^8.1.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/swagger": "^6.1.2",
     "@nestjs/typeorm": "^8.0.3",
     "connect-typeorm": "^1.1.4",
     "dotenv": "^16.0.0",

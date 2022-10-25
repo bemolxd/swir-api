@@ -1,4 +1,5 @@
 import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import {
   AuthenticatedGuard,
   ContextTypeGuard,
@@ -13,7 +14,9 @@ import { ContextType } from 'modules/users/domain/types';
 import { OrderService } from '../../services';
 import { SubmitOrderBodyDto } from './submit-order.dto';
 import { SubmitOrderResponse } from './submit-order.use-case';
+import { OrderDto } from '../../dto';
 
+@ApiTags('Orders')
 @Controller()
 @UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class SubmitOrderController extends BaseController {
@@ -23,6 +26,7 @@ export class SubmitOrderController extends BaseController {
 
   @Post('users/:userId/orders/:orderId/submit')
   @ContextTypes(ContextType.USER)
+  @ApiOkResponse({ type: OrderDto })
   async submitOrder(
     @Body() body: SubmitOrderBodyDto,
     @Param('senderId') senderId: string,

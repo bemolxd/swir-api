@@ -1,4 +1,5 @@
 import { Controller, Delete, Param, Res, UseGuards } from '@nestjs/common';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import {
   AuthenticatedGuard,
@@ -13,6 +14,7 @@ import { ItemService } from '../../services';
 import { RemoveItemErrors } from './remove-item.errors';
 import { RemoveItemResponse } from './remove-item.use-case';
 
+@ApiTags('Items')
 @Controller()
 @UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class RemoveItemController extends BaseController {
@@ -21,6 +23,7 @@ export class RemoveItemController extends BaseController {
   }
 
   @Delete('items/:itemId')
+  @ApiOkResponse({ description: 'Item removed' })
   @ContextTypes(ContextType.GLOBAL, ContextType.TECH)
   async removeItem(@Param('itemId') itemId: string, @Res() res: Response) {
     try {

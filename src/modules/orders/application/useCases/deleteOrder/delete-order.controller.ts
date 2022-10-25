@@ -1,4 +1,5 @@
 import { Controller, Delete, Param, Res, UseGuards } from '@nestjs/common';
+import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import {
   AuthenticatedGuard,
@@ -13,6 +14,7 @@ import { OrderService } from '../../services';
 import { DeleteOrderResponse } from './delete-order.use-case';
 import { DeleteOrderErrors } from './delete-order.errors';
 
+@ApiTags('Orders')
 @Controller()
 @UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class DeleteOrderController extends BaseController {
@@ -22,6 +24,8 @@ export class DeleteOrderController extends BaseController {
 
   @Delete('users/:senderId/orders/:orderId')
   @ContextTypes(ContextType.GLOBAL, ContextType.USER)
+  @ApiOkResponse({ description: 'Order removed' })
+  @ApiNotFoundResponse({ description: 'Order not found' })
   async deleteOrder(
     @Param('senderId') senderId: string,
     @Param('orderId') orderId: string,
