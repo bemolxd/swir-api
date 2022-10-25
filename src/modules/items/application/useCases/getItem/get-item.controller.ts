@@ -1,4 +1,5 @@
 import { Controller, Get, Param, Res, UseGuards } from '@nestjs/common';
+import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import {
   AuthenticatedGuard,
@@ -12,7 +13,9 @@ import { ContextType } from 'modules/users/domain/types';
 import { ItemService } from '../../services';
 import { GetItemErrors } from './get-item.errors';
 import { GetItemResponse } from './get-item.use-case';
+import { ItemDto } from '../../dto';
 
+@ApiTags('Items')
 @Controller()
 @UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class GetItemController extends BaseController {
@@ -21,6 +24,8 @@ export class GetItemController extends BaseController {
   }
 
   @Get('items/:itemId')
+  @ApiOkResponse({ type: ItemDto })
+  @ApiNotFoundResponse({ description: 'Item not found' })
   @ContextTypes(ContextType.GLOBAL, ContextType.TECH, ContextType.USER)
   async getItemById(@Param('itemId') itemId: string, @Res() res: Response) {
     try {

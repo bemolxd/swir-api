@@ -1,4 +1,5 @@
 import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
+import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import {
   AuthenticatedGuard,
@@ -14,6 +15,7 @@ import { CreateItemDto } from './create-item.dto';
 import { CreateItemErrors } from './create-item.errors';
 import { CreateItemResponse } from './create-item.use-case';
 
+@ApiTags('Items')
 @Controller()
 @UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class CreateItemController extends BaseController {
@@ -22,6 +24,7 @@ export class CreateItemController extends BaseController {
   }
 
   @Post('items')
+  @ApiCreatedResponse({ description: 'Item created' })
   @ContextTypes(ContextType.GLOBAL, ContextType.TECH)
   async createItem(@Body() createItemDto: CreateItemDto, @Res() res: Response) {
     try {

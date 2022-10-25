@@ -1,4 +1,5 @@
 import { Controller, Get, Param, Res, UseGuards } from '@nestjs/common';
+import { ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import {
   AuthenticatedGuard,
@@ -14,6 +15,7 @@ import { Order } from 'modules/orders/domain';
 import { ItemService } from '../../services';
 import { ItemAvailabilityDto, OccupiedDate } from './get-availability.dto';
 
+@ApiTags('Items')
 @Controller()
 @UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class GetAvailabilityController extends BaseController {
@@ -25,6 +27,8 @@ export class GetAvailabilityController extends BaseController {
   }
 
   @Get('/items/:itemId/availability')
+  @ApiOkResponse({ type: ItemAvailabilityDto })
+  @ApiNotFoundResponse({ description: 'Item not found' })
   @ContextTypes(ContextType.GLOBAL, ContextType.TECH, ContextType.USER)
   async getAvailability(@Param('itemId') itemId: string, @Res() res: Response) {
     try {
