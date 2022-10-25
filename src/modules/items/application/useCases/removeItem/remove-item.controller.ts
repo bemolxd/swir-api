@@ -1,20 +1,27 @@
 import { Controller, Delete, Param, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
-import { AuthenticatedGuard } from 'auth/guards';
+import {
+  AuthenticatedGuard,
+  ContextTypeGuard,
+  ContextTypes,
+} from 'auth/guards';
 import { AppError, BaseController } from 'shared/core';
+
+import { ContextType } from 'modules/users/domain/types';
 
 import { ItemService } from '../../services';
 import { RemoveItemErrors } from './remove-item.errors';
 import { RemoveItemResponse } from './remove-item.use-case';
 
 @Controller()
-@UseGuards(AuthenticatedGuard)
+@UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class RemoveItemController extends BaseController {
   constructor(private readonly itemService: ItemService) {
     super();
   }
 
   @Delete('items/:itemId')
+  @ContextTypes(ContextType.GLOBAL, ContextType.TECH)
   async removeItem(@Param('itemId') itemId: string, @Res() res: Response) {
     try {
       const result: RemoveItemResponse = await this.itemService.removeItem({

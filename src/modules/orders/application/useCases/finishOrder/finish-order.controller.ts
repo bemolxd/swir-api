@@ -1,6 +1,13 @@
-import { Body, Controller, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
+import {
+  AuthenticatedGuard,
+  ContextTypeGuard,
+  ContextTypes,
+} from 'auth/guards';
 import { Response } from 'express';
 import { AppError, BaseController } from 'shared/core';
+
+import { ContextType } from 'modules/users/domain/types';
 
 import { OrderService } from '../../services';
 import { FinishOrderBodyDto } from './finish-order.dto';
@@ -8,12 +15,14 @@ import { FinishOrderErrors } from './finish-order.errors';
 import { FinishOrderResponse } from './finish-order.use-case';
 
 @Controller()
+@UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class FinishOrderController extends BaseController {
   constructor(private readonly orderService: OrderService) {
     super();
   }
 
   @Post('orders/:orderId/finish')
+  @ContextTypes(ContextType.GLOBAL, ContextType.TECH)
   async finishOrder(
     @Param('orderId') orderId: string,
     @Body() dto: FinishOrderBodyDto,

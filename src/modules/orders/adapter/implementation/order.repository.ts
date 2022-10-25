@@ -1,9 +1,9 @@
 import { EntityRepository } from 'typeorm';
 
-import { BaseRepository, QueryListResult, QueryParams } from 'shared/core';
+import { BaseRepository, QueryListResult } from 'shared/core';
 
 import { OrderEntity } from 'modules/orders/infrastructure';
-import { Order, OrderStatus } from 'modules/orders/domain';
+import { Order } from 'modules/orders/domain';
 
 import { OrderMap } from './order.map';
 import { IOrderRepository } from '../order-repository';
@@ -29,9 +29,9 @@ export class OrderRepository
   }
 
   async getAllOrders(
-    { limit = 10, offset = 0 }: OrdersCollectionQueryParams,
-    senderId = '',
+    { limit = 10, offset = 0, senderId = '' }: OrdersCollectionQueryParams,
     isArchived = false,
+    isNotCompleting = false,
   ): Promise<QueryListResult<Order>> {
     const query = this.createPaginatedQueryBuilder('orders', {
       limit,
@@ -39,9 +39,36 @@ export class OrderRepository
     });
 
     const [collection, total] = await query
-      .where(`orders.sender_id ilike '%${senderId}%`)
-      .where(`orders.is_archived = ${isArchived}`)
+      .where(`orders.sender_id ilike '%${senderId}%'`)
+      .andWhere(`orders.is_archived = ${isArchived}`)
+      .andWhere(
+        `orders.status not ilike '%${isNotCompleting ? 'completing' : '*'}%'`,
+      )
       .orderBy('orders.updatedAt', 'DESC')
+      .getManyAndCount();
+
+    return {
+      collection: OrderMap.toDomainBulk(collection),
+      meta: {
+        limit,
+        offset,
+        total,
+      },
+    };
+  }
+
+  async getUserDetailOrders({
+    limit,
+    offset,
+    senderId = '',
+    techId = '',
+  }: OrdersCollectionQueryParams): Promise<QueryListResult<Order>> {
+    const query = this.createPaginatedQueryBuilder('orders', { limit, offset });
+
+    const [collection, total] = await query
+      .where(`orders.sender_id ilike '%${senderId}%'`)
+      .andWhere(`orders.tech_id ilike '%${techId}%'`)
+      .andWhere(`orders.status != 'completing'`)
       .getManyAndCount();
 
     return {

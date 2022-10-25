@@ -1,20 +1,26 @@
 import { Controller, Get, Query, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
-import { AuthenticatedGuard } from 'auth/guards';
+import {
+  AuthenticatedGuard,
+  ContextTypeGuard,
+  ContextTypes,
+} from 'auth/guards';
 import { AppError, BaseController } from 'shared/core';
 
 import { UsersCollectionQueryParams } from 'modules/users/adapter';
+import { ContextType } from 'modules/users/domain/types';
 
 import { UserService } from '../../services/user.service';
 
 @Controller()
-@UseGuards(AuthenticatedGuard)
+@UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class GetUsersController extends BaseController {
   constructor(private readonly userService: UserService) {
     super();
   }
 
   @Get('users')
+  @ContextTypes(ContextType.GLOBAL, ContextType.TECH)
   async getAllUsers(
     @Query() params: UsersCollectionQueryParams,
     @Res() res: Response,

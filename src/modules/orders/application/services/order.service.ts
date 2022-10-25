@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { QueryParams } from 'shared/core';
-
 import { OrdersCollectionQueryParams } from 'modules/orders/adapter';
 
 import {
+  GetArchivedOrdersQuery,
   GetOrderQuery,
   GetOrdersQuery,
+  GetUserArchivedOrdersQuery,
+  GetUserDetailOrdersQuery,
   GetUserOrdersQuery,
 } from '../queries/implementations';
 import {
@@ -38,14 +39,24 @@ export class OrderService {
     private readonly commandBus: CommandBus,
   ) {}
 
-  async getActiveOrders(
-    params: OrdersCollectionQueryParams,
-    senderId?: string,
-  ) {
-    if (!!senderId)
-      return this.queryBus.execute(new GetUserOrdersQuery(params, senderId));
-
+  async getActiveOrders(params: OrdersCollectionQueryParams) {
     return this.queryBus.execute(new GetOrdersQuery(params));
+  }
+
+  async getUserActiveOrders(params: OrdersCollectionQueryParams) {
+    return this.queryBus.execute(new GetUserOrdersQuery(params));
+  }
+
+  async getArchivedOrders(params: OrdersCollectionQueryParams) {
+    return this.queryBus.execute(new GetArchivedOrdersQuery(params));
+  }
+
+  async getUserArchivedOrders(params: OrdersCollectionQueryParams) {
+    return this.queryBus.execute(new GetUserArchivedOrdersQuery(params));
+  }
+
+  async getUserDetailOrders(params: OrdersCollectionQueryParams) {
+    return this.queryBus.execute(new GetUserDetailOrdersQuery(params));
   }
 
   async getOrderById(getOrderDto: GetOrderDto) {

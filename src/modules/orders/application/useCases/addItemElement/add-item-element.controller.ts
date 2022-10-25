@@ -1,6 +1,12 @@
 import { Body, Controller, Param, Put, Res, UseGuards } from '@nestjs/common';
-import { AuthenticatedGuard } from 'auth/guards';
+import {
+  AuthenticatedGuard,
+  ContextTypeGuard,
+  ContextTypes,
+} from 'auth/guards';
 import { Response } from 'express';
+
+import { ContextType } from 'modules/users/domain/types';
 
 import { AppError, BaseController } from 'shared/core';
 
@@ -10,13 +16,14 @@ import { AddItemElementErrors } from './add-item-element.errors';
 import { AddItemElementResponse } from './add-item-element.use-case';
 
 @Controller()
-@UseGuards(AuthenticatedGuard)
+@UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class AddItemElementController extends BaseController {
   constructor(private readonly orderService: OrderService) {
     super();
   }
 
   @Put('orders/:orderId/addElement')
+  @ContextTypes(ContextType.GLOBAL, ContextType.TECH, ContextType.USER)
   async addElement(
     @Body() addElementDto: AddItemElementDto,
     @Param('orderId') orderId: string,

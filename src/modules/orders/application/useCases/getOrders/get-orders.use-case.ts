@@ -20,7 +20,7 @@ export class GetOrdersUseCase
   async execute(
     params: OrdersCollectionQueryParams,
   ): Promise<OrdersCollectionDto> {
-    const orders = await this.orderRepository.getAllOrders(params);
+    const orders = await this.orderRepository.getAllOrders(params, false, true);
 
     return {
       collection: OrderMap.toDtoBulk(orders.collection),

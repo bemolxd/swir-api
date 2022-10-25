@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { OrdersModule } from 'modules/orders';
+import { OrderService } from 'modules/orders/application/services';
 
 import { ItemRepository } from './adapter';
 
@@ -13,6 +15,7 @@ import {
   CreateItemUseCase,
   CreateItemController,
 } from './application/useCases/createItem';
+import { GetAvailabilityController } from './application/useCases/getAvailability';
 import {
   GetItemUseCase,
   GetItemController,
@@ -31,16 +34,22 @@ import {
 } from './application/useCases/updateItem';
 
 @Module({
-  imports: [CqrsModule, TypeOrmModule.forFeature([ItemRepository])],
+  imports: [
+    OrdersModule,
+    CqrsModule,
+    TypeOrmModule.forFeature([ItemRepository]),
+  ],
   controllers: [
     GetItemsController,
     CreateItemController,
     GetItemController,
     UpdateItemController,
     RemoveItemController,
+    GetAvailabilityController,
   ],
   providers: [
     ItemService,
+    OrderService,
     ...QueryHandlers,
     ...CommandHandlers,
     GetItemUseCase,

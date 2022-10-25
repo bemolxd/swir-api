@@ -20,5 +20,6 @@ import { OrderControllers, OrderUseCases } from './application/useCases';
     ...CommandHandlers,
     ...OrderUseCases,
   ],
+  exports: [OrderService],
 })
 export class OrdersModule {}

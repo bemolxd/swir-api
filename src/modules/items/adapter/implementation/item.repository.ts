@@ -38,7 +38,9 @@ export class ItemRepository
     const query = this.createPaginatedQueryBuilder('items', {
       limit,
       offset,
-    }).where(`items.name ilike '%${search}%'`);
+    })
+      .where(`items.name ilike '%${search}%'`)
+      .orderBy('items.updatedAt', 'DESC');
 
     if (type) {
       query.where(`items.type in (:...type)`, {

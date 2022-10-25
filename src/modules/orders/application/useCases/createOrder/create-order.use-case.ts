@@ -22,6 +22,7 @@ export class CreateOrderUseCase
 
   async execute(dto: CreateOrderDto): Promise<CreateOrderResponse> {
     const newOrder = Order.create({
+      orderDoc: null,
       senderId: dto.senderId,
       items: dto.items,
       status: OrderStatus.COMPLETING,

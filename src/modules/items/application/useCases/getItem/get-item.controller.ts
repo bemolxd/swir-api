@@ -1,20 +1,27 @@
 import { Controller, Get, Param, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
-import { AuthenticatedGuard } from 'auth/guards';
+import {
+  AuthenticatedGuard,
+  ContextTypeGuard,
+  ContextTypes,
+} from 'auth/guards';
 import { AppError, BaseController } from 'shared/core';
+
+import { ContextType } from 'modules/users/domain/types';
 
 import { ItemService } from '../../services';
 import { GetItemErrors } from './get-item.errors';
 import { GetItemResponse } from './get-item.use-case';
 
 @Controller()
-@UseGuards(AuthenticatedGuard)
+@UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class GetItemController extends BaseController {
   constructor(private readonly itemService: ItemService) {
     super();
   }
 
   @Get('items/:itemId')
+  @ContextTypes(ContextType.GLOBAL, ContextType.TECH, ContextType.USER)
   async getItemById(@Param('itemId') itemId: string, @Res() res: Response) {
     try {
       const result: GetItemResponse = await this.itemService.getItemById({

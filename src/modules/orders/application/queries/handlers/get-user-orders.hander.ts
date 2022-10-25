@@ -7,7 +7,7 @@ import { GetUserOrdersQuery } from '../implementations';
 export class GetUserOrdersHandler implements IQueryHandler {
   constructor(private getUserOrdersUseCase: GetUserOrdersUseCase) {}
 
-  async execute({ params, senderId }: GetUserOrdersQuery): Promise<any> {
-    return await this.getUserOrdersUseCase.execute(params, senderId);
+  async execute({ params }: GetUserOrdersQuery) {
+    return await this.getUserOrdersUseCase.execute(params);
   }
 }

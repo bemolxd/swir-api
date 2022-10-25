@@ -15,7 +15,7 @@ export class GetAdminsUseCase
   ) {}
 
   async execute(): Promise<UsersCollectionDto> {
-    const users = await this.userRepository.getAllUsers({});
+    const users = await this.userRepository.getAllUsers({ limit: 100 });
 
     return {
       collection: UserMap.toDtoBulk(

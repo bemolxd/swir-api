@@ -12,6 +12,7 @@ export class OrderMap {
   public static toDto(order: Order): OrderDto {
     return {
       orderId: order.orderId.toString(),
+      orderDoc: order.orderDoc,
       techId: order.techId,
       senderId: order.senderId,
       status: order.status,
@@ -30,6 +31,7 @@ export class OrderMap {
     return entities.map((entity) =>
       Order.create(
         {
+          orderDoc: entity.order_doc,
           techId: entity.tech_id,
           senderId: entity.sender_id,
           status: entity.status,
@@ -50,6 +52,7 @@ export class OrderMap {
   public static toDomain(entity: OrderEntity): Order {
     return Order.create(
       {
+        orderDoc: entity.order_doc,
         techId: entity.tech_id,
         senderId: entity.sender_id,
         status: entity.status,
@@ -69,6 +72,7 @@ export class OrderMap {
   public static dtoToDomain(dto: OrderDto): Order {
     return Order.create(
       {
+        orderDoc: dto.orderDoc,
         techId: dto.techId,
         senderId: dto.senderId,
         status: dto.status,
@@ -88,6 +92,7 @@ export class OrderMap {
   public static toPersistence(order: Order): Partial<OrderEntity> {
     return {
       order_id: order.orderId.toString(),
+      order_doc: order.orderDoc,
       tech_id: order.techId,
       sender_id: order.senderId,
       status: order.status,

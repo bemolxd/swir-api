@@ -21,6 +21,7 @@ export class SubmitOrderUseCase
   async execute(dto: SubmitOrderDto): Promise<SubmitOrderResponse> {
     const updatedOrder = Order.create(
       {
+        orderDoc: null,
         senderId: dto.senderId,
         techId: dto.techId,
         senderComment: dto.senderComment,

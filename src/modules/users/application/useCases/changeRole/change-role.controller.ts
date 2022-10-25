@@ -1,5 +1,10 @@
-import { Body, Controller, Param, Put, Res } from '@nestjs/common';
+import { Body, Controller, Param, Put, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
+import {
+  AuthenticatedGuard,
+  ContextTypeGuard,
+  ContextTypes,
+} from 'auth/guards';
 
 import { ContextType } from 'modules/users/domain/types';
 
@@ -10,12 +15,14 @@ import { ChangeRoleErrors } from './change-role.errors';
 import { ChangeRoleResponse } from './change-role.use-case';
 
 @Controller()
+@UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class ChangeRoleController extends BaseController {
   constructor(private readonly userService: UserService) {
     super();
   }
 
   @Put('users/:userId/role')
+  @ContextTypes(ContextType.GLOBAL)
   async changeRole(
     @Param('userId') userId: string,
     @Body('contextType') contextType: ContextType,

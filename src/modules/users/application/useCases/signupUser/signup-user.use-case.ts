@@ -1,5 +1,4 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { HttpException } from '@nestjs/common';
 
 import { AppError, UseCase } from 'shared/core';
 

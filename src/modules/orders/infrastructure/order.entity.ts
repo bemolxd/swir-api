@@ -10,6 +10,9 @@ export class OrderEntity extends AbstractEntity {
   order_id: string;
 
   @Column('text', { nullable: true })
+  order_doc: string;
+
+  @Column('text', { nullable: true })
   tech_id: string;
 
   @Column()
