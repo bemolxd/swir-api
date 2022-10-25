@@ -1,21 +1,28 @@
 import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
-import { AuthenticatedGuard } from 'auth/guards';
+import {
+  AuthenticatedGuard,
+  ContextTypeGuard,
+  ContextTypes,
+} from 'auth/guards';
 import { Response } from 'express';
 
 import { AppError, BaseController } from 'shared/core';
+
+import { ContextType } from 'modules/users/domain/types';
 
 import { OrderService } from '../../services';
 import { SubmitOrderBodyDto } from './submit-order.dto';
 import { SubmitOrderResponse } from './submit-order.use-case';
 
 @Controller()
-@UseGuards(AuthenticatedGuard)
+@UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class SubmitOrderController extends BaseController {
   constructor(private readonly orderService: OrderService) {
     super();
   }
 
   @Post('users/:userId/orders/:orderId/submit')
+  @ContextTypes(ContextType.USER)
   async submitOrder(
     @Body() body: SubmitOrderBodyDto,
     @Param('senderId') senderId: string,
@@ -28,8 +35,6 @@ export class SubmitOrderController extends BaseController {
         orderId,
         ...body,
       });
-
-      //TODO: obsługa błędów
 
       return this.ok(res, result);
     } catch (error) {

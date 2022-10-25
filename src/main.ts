@@ -15,6 +15,8 @@ async function bootstrap() {
   });
 
   const sessionRepository = getRepository(TypeORMSession);
+  // delete sessions on app restart
+  // sessionRepository.delete({});
 
   app.setGlobalPrefix('api');
   app.use(

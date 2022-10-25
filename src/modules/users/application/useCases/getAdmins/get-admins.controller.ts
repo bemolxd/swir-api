@@ -1,21 +1,27 @@
 import { Controller, Get, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
-import { AuthenticatedGuard } from 'auth/guards';
+import {
+  AuthenticatedGuard,
+  ContextTypeGuard,
+  ContextTypes,
+} from 'auth/guards';
 
 import { AppError, BaseController } from 'shared/core';
+
+import { ContextType } from 'modules/users/domain/types';
 
 import { UserService } from '../../services';
 
 @Controller()
-@UseGuards(AuthenticatedGuard)
+@UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class GetAdminsController extends BaseController {
   constructor(private readonly userService: UserService) {
     super();
   }
 
   @Get('admins')
-  // TODO: dodać jakieś query params, które zagwarantują pobranie wszystkich adminów
+  @ContextTypes(ContextType.GLOBAL, ContextType.TECH, ContextType.USER)
   async getAdmins(@Res() res: Response) {
     try {
       const admins = await this.userService.getAdmins();

@@ -1,8 +1,5 @@
-import { QueryParams } from 'shared/core';
+import { OrdersCollectionQueryParams } from 'modules/orders/adapter';
 
 export class GetUserOrdersQuery {
-  constructor(
-    public readonly params: QueryParams,
-    public readonly senderId: string,
-  ) {}
+  constructor(public readonly params: OrdersCollectionQueryParams) {}
 }

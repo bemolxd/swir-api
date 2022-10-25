@@ -4,6 +4,7 @@ import { OrderId } from './order-id';
 import { OrderStatus, SelectedItem } from './types';
 
 export interface OrderProps {
+  orderDoc: string | null;
   techId: string | null;
   senderId: string;
   status: OrderStatus;
@@ -20,6 +21,10 @@ export interface OrderProps {
 export class Order extends Entity<OrderProps> {
   get orderId() {
     return OrderId.create(this._id).id;
+  }
+
+  get orderDoc() {
+    return this.props.orderDoc;
   }
 
   get techId() {

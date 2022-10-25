@@ -37,6 +37,7 @@ export class AddItemElementUseCase
       if (!!existingItem) {
         updatedOrder = Order.create(
           {
+            orderDoc: order.orderDoc,
             senderId: order.senderId,
             senderComment: order.senderComment,
             techId: order.techId,
@@ -67,6 +68,7 @@ export class AddItemElementUseCase
 
       updatedOrder = Order.create(
         {
+          orderDoc: order.orderDoc,
           senderId: order.senderId,
           senderComment: order.senderComment,
           techId: order.techId,

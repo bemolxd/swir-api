@@ -30,6 +30,7 @@ export class RemoveItemElementUseCase
 
       const updatedOrder = Order.create(
         {
+          orderDoc: order.orderDoc,
           senderId: order.senderId,
           senderComment: order.senderComment,
           techId: order.techId,

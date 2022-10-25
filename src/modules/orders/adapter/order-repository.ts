@@ -8,8 +8,11 @@ export interface IOrderRepository {
   getOrderById(orderId: string): Promise<Order>;
   getAllOrders(
     params: OrdersCollectionQueryParams,
-    senderId?: string,
     isArchived?: boolean,
+    isNotCompleting?: boolean,
+  ): Promise<QueryListResult<Order>>;
+  getUserDetailOrders(
+    params: OrdersCollectionQueryParams,
   ): Promise<QueryListResult<Order>>;
   persist(order: Order): Promise<void>;
   updateOrder(order: Order): Promise<void>;

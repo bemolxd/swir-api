@@ -2,6 +2,7 @@ import { OrderStatus, SelectedItem } from 'modules/orders/domain';
 
 export class OrderDto {
   orderId: string;
+  orderDoc: string;
   techId: string;
   senderId: string;
   status: OrderStatus;

@@ -1,20 +1,27 @@
 import { Body, Controller, Param, Post, Res, UseGuards } from '@nestjs/common';
-import { AuthenticatedGuard } from 'auth/guards';
+import {
+  AuthenticatedGuard,
+  ContextTypeGuard,
+  ContextTypes,
+} from 'auth/guards';
 import { Response } from 'express';
 import { AppError, BaseController } from 'shared/core';
+
+import { ContextType } from 'modules/users/domain/types';
 
 import { OrderService } from '../../services';
 import { RejectOrderErrors } from './reject-order.errors';
 import { RejectOrderResponse } from './reject-order.use-case';
 
 @Controller()
-@UseGuards(AuthenticatedGuard)
+@UseGuards(AuthenticatedGuard, ContextTypeGuard)
 export class RejectOrderController extends BaseController {
   constructor(private readonly orderService: OrderService) {
     super();
   }
 
   @Post('orders/:orderId/reject')
+  @ContextTypes(ContextType.GLOBAL, ContextType.TECH)
   async rejectOrder(
     @Param('orderId') orderId: string,
     @Body('techComment') techComment: string,
