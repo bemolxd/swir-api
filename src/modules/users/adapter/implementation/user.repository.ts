@@ -38,9 +38,15 @@ export class UserRepository
   async getAllUsers({
     limit = 10,
     offset = 0,
+    search = '',
     contextType,
   }: UsersCollectionQueryParams): Promise<QueryListResult<User>> {
-    const query = this.createPaginatedQueryBuilder('users', { limit, offset });
+    const query = this.createPaginatedQueryBuilder('users', {
+      limit,
+      offset,
+    })
+      .andWhere(`users.first_name ilike '%${search}%'`)
+      .orWhere(`users.last_name ilike '%${search}%'`);
 
     if (contextType) {
       query.where(`users.context_type in (:...contextType)`, {
