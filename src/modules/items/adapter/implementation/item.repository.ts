@@ -40,6 +40,7 @@ export class ItemRepository
       offset,
     })
       .where(`items.name ilike '%${search}%'`)
+      .orWhere(`items.vendor ilike '%${search}%'`)
       .orderBy('items.updatedAt', 'DESC');
 
     if (type) {
