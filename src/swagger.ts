@@ -9,7 +9,7 @@ export const swaggerConfig = new DocumentBuilder()
     \n\nAutor: Bartosz Bem [(bemolx)](https://github.com/bemolxd)
     \n\n${new Date().getFullYear()} &copy; [Multimed](https://multimed.org)`,
   )
-  .setVersion('0.1.1-rc2')
+  .setVersion('0.1.2-pre')
   .build();
 
 export const customOptions: SwaggerCustomOptions = {
