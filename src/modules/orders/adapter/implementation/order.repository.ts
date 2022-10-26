@@ -29,7 +29,13 @@ export class OrderRepository
   }
 
   async getAllOrders(
-    { limit = 10, offset = 0, senderId = '' }: OrdersCollectionQueryParams,
+    {
+      limit = 10,
+      offset = 0,
+      senderId = '',
+      search = '',
+      techId = '',
+    }: OrdersCollectionQueryParams,
     isArchived = false,
     isNotCompleting = false,
   ): Promise<QueryListResult<Order>> {
@@ -44,6 +50,8 @@ export class OrderRepository
       .andWhere(
         `orders.status not ilike '%${isNotCompleting ? 'completing' : '*'}%'`,
       )
+      .andWhere(`orders.tech_id ilike '%${techId}%'`)
+      .andWhere(`orders.order_doc ilike '%${search}%'`)
       .orderBy('orders.updatedAt', 'DESC')
       .getManyAndCount();
 
@@ -62,6 +70,7 @@ export class OrderRepository
     offset,
     senderId = '',
     techId = '',
+    search = '',
   }: OrdersCollectionQueryParams): Promise<QueryListResult<Order>> {
     const query = this.createPaginatedQueryBuilder('orders', { limit, offset });
 
@@ -69,6 +78,8 @@ export class OrderRepository
       .where(`orders.sender_id ilike '%${senderId}%'`)
       .andWhere(`orders.tech_id ilike '%${techId}%'`)
       .andWhere(`orders.status != 'completing'`)
+      .andWhere(`orders.order_doc ilike '%${search}%'`)
+      .orderBy('orders.updatedAt', 'DESC')
       .getManyAndCount();
 
     return {
