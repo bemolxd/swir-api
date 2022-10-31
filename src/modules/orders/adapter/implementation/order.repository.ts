@@ -42,16 +42,21 @@ export class OrderRepository
     const query = this.createPaginatedQueryBuilder('orders', {
       limit,
       offset,
-    });
+    }).where(`orders.sender_id ilike '%${senderId}%'`);
+
+    if (techId) {
+      query.where(`orders.tech_id ilike '%${techId}%'`);
+    }
+
+    if (search) {
+      query.where(`orders.order_doc ilike '%${search}%'`);
+    }
 
     const [collection, total] = await query
-      .where(`orders.sender_id ilike '%${senderId}%'`)
       .andWhere(`orders.is_archived = ${isArchived}`)
       .andWhere(
-        `orders.status not ilike '%${isNotCompleting ? 'completing' : '*'}%'`,
+        `orders.status not ilike '%${isNotCompleting && 'completing'}%'`,
       )
-      .andWhere(`orders.tech_id ilike '%${techId}%'`)
-      .andWhere(`orders.order_doc ilike '%${search}%'`)
       .orderBy('orders.updatedAt', 'DESC')
       .getManyAndCount();
 
