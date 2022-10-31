@@ -43,8 +43,6 @@ export class OrderRepository
       limit,
       offset,
     }).where(`orders.sender_id ilike '%${senderId}%'`);
-    // .where(`orders.tech_id ilike '%${techId}%'`);
-    // .andWhere(`orders.order_doc ilike '%${search}%'`);
 
     if (techId) {
       query.where(`orders.tech_id ilike '%${techId}%'`);

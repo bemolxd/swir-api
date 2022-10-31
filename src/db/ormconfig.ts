@@ -7,7 +7,7 @@ export const config: ConnectionOptions = {
   port: Number(process.env.DB_PORT),
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
-  synchronize: true, //dev
+  synchronize: false,
   logging: true,
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   migrations: [__dirname + '/../db/migrations/**/*{.ts,.js}'],
